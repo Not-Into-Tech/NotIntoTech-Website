@@ -10,11 +10,10 @@ const connectDB = async () => {
         }
         
         await mongoose.connect(url, {
-            dbName: 'ideabox-website'
+            dbName: 'notintotech-website'
         });
         
-        console.log('Database is connected to: ideabox-website');
-        console.log('Collection: user-feedback');
+        console.log('Database is connected to: notintotech-website');
         console.log('Environment:', process.env.NODE_ENV || 'development');
     } catch (err) {
         console.error('Error connecting to the database:', err);

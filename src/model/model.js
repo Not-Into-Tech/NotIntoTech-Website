@@ -15,7 +15,7 @@ const userSchema = new Schema({
         required: true,
     }
 }, {
-    collection: 'user-feedback'
+    collection: 'feedback_user'
 }
 );
 
