@@ -2,13 +2,6 @@ const express = require('express');
 const User = require('../model/model');
 const router = express.Router();
 
-
-// GET route for the home page
-router.get('/', (req, res) => {
-    res.render('index', { message: null, error: null });
-});
-
-// POST route for adding a user
 router.post('/feedback-form', async (req, res) => {
     try {
         console.log('Received feedback data:', req.body);
@@ -30,6 +23,7 @@ router.post('/feedback-form', async (req, res) => {
         res.status(500).render(
             'index',
             {
+                message: null,
                 error: 'Error saving user data' 
             }
         );

@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const connectDB = require('../src/database/db');
-const userRoutes = require('../src/routes/userRoutes');
+const router = require('../src/routes/router');
 
 const app = express();
 
@@ -13,7 +13,7 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files
+// Serve static files   
 app.use(express.static(path.join(__dirname, '../src/public')));
 
 // View engine setup
