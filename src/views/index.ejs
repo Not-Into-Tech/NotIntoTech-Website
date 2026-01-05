@@ -23,7 +23,7 @@
                         Grab a coffee and untangle the tech world with simple, late-night reads...
                     </p>
                     <div class="mt-18">
-                        <%- include('components/button-hover-color', {text:'Read here', link:'/'}) %>
+                        <%- include('components/button-hover-color', {text:'Read here', link:'/coming-soon'}) %>
                     </div>
                 </div>
 
@@ -38,19 +38,19 @@
                     </div>
                     <div class="grid grid-flow-col grid-rows-3 gap-y-7">
                         <div class="grid grid-cols-5 gap-2 items-center w-auto h-15 lg:h-auto rounded-xl bg-[#154D41] hover:bg-[#7449F6] px-5">
-                            <h1 class="text-left text-white text-[0.9rem] font-medium">Icon</h1>
+                            <img src="image-assets\icon-document-rag.png" alt="RAG chatbot" class="h-1/2 self-center justify-self-center">
                             <div class="col-span-4">
                                 <h1 class="text-left text-white text-[0.7rem] lg:text-[0.9rem] font-medium">Tailored with RAG to embed specific knowledge on tech industry</h1>
                             </div>
                         </div>
                         <div class="grid grid-cols-5 gap-2 items-center w-auto h-15 lg:h-auto rounded-xl bg-[#154D41] hover:bg-[#7449F6] px-5">
-                            <h1 class="text-left text-white text-[0.9rem] font-medium">Icon</h1>
+                            <img src="image-assets\icon-llm-brand.png" alt="LLM brand" class="h-1/2 self-center justify-self-center">
                             <div class="col-span-4">
                                 <h1 class="text-left text-white text-[0.7rem] lg:text-[0.9rem] font-medium">Enabling latest Large Language Model from well known tech brand</h1>
                             </div>
                         </div>
                         <div class="grid grid-cols-5 gap-2 items-center w-auto h-15 lg:h-auto rounded-xl bg-[#154D41] hover:bg-[#7449F6] px-5">
-                            <h1 class="text-left text-white text-[0.9rem] font-medium">Icon</h1>
+                            <img src="image-assets\icon-free.png" alt="Chatbot free" class="h-1/2 self-center justify-self-center">
                             <div class="col-span-4">
                                 <h1 class="text-left text-white text-[0.7rem] lg:text-[0.9rem] font-medium">100% free of usage and easy to use (t&c applied)</h1>
                             </div>
@@ -113,7 +113,7 @@
                         <div class="flex w-[100px] h-[100px] rounded-xl bg-[#7449F6] hover:bg-[#8742A7]"></div>
                     </div>
                     <div class="mt-14 justify-items-center">
-                        <%- include('components/button-hover-color', {text:'Contact us', link:'/'}) %>
+                        <%- include('components/button-hover-color', {text:'Contact us', link:'/coming-soon'}) %>
                     </div>
                 </div>
 
@@ -158,7 +158,11 @@
                 
                 <!-- feedback-section -->
                 <div class="bg-[#010C13] mt-20 px-10 py-18">
+                    <h1 class="text-white text-center font-semibold text-[30px] pb-7">Send us your feedback</h1>
                     <%- include('components/feedback-form') %>
+                    <div class="mt-14 justify-items-center">
+                        <%- include('components/button-hover-color', {text:'Explore more', link:'/coming-soon'}) %>
+                    </div>
                 </div>
 
             </main>

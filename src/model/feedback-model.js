@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const feedbackSchema = new Schema({
     feedback_name: {
         type: String,
         required: true,
@@ -19,6 +19,5 @@ const userSchema = new Schema({
 }
 );
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+// Use an explicit model name and avoid OverwriteModelError when code reloads
+module.exports = mongoose.models.FeedbackUser || mongoose.model('FeedbackUser', feedbackSchema);
