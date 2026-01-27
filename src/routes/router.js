@@ -10,6 +10,8 @@ const datasetRoutes = require('./dataRouter');
 const errorRoutes = require('./errorRouter');
 const aiRoutes = require('./aiRouter');
 const profileRoutes = require('./profileRouter');
+const articleApiRoutes = require('./articleApiRouter');
+const articlePageRoutes = require('./articlePageRouter');
 
 router.use('/', homeRoutes);
 router.use('/', insightsRoutes);
@@ -21,5 +23,7 @@ router.use('/', datasetRoutes);
 router.use('/', errorRoutes);
 router.use('/', aiRoutes);
 router.use('/', profileRoutes);
+router.use('/', articleApiRoutes);
+router.use('/', articlePageRoutes);
 
 module.exports = router;

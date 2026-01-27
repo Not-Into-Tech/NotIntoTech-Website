@@ -13,9 +13,13 @@ const feedbackSchema = new Schema({
     feedback_text: {
         type: String,
         required: true,
-    }
-}, {
-    collection: 'feedback_user'
+    },
+},
+{
+    timestamps: true,
+}, 
+{
+    collection: 'feedbackuser'
 }
 );
 

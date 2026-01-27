@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('components/head', { text: 'Insights' }) %>
+<%- include('components/head', { text: 'Articles' }) %>
 <body class="bg-[#154D41]">
     
     <!-- Content Wrapper -->
@@ -14,19 +14,19 @@
         <!-- Main Content -->
         <section>
             <main>
-                <!-- main text -->
-                 <div class="mt-25 px-10 flex justify-center">
+                <!-- Hero Section -->
+                <div class="mt-25 px-10 flex justify-center mb-12">
                     <div class="max-w-2xl w-full text-center">
                         <h1 class="text-white text-[3em] lg:text-[3.7em] font-bold leading-[1.2em]">
-                            NITE Insights
+                            Latest Articles
                         </h1>
                         <p class="text-white text-[0.8em] lg:text-[1.1em] leading-[1.5em] mt-3">
-                            From casual insights to strategic thinking... data that works for you.
+                            Insights on technology, data, and innovation
                         </p>
                     </div>
                 </div>
 
-                <!-- articles grid -->
+                <!-- Articles Grid -->
                 <div class="px-10 flex justify-center">
                     <div class="w-full max-w-6xl">
                         <% if (articles && articles.length > 0) { %>
@@ -87,6 +87,7 @@
                         <% } %>
                     </div>
                 </div>
+
             </main>
         </section>
 
@@ -97,7 +98,7 @@
         
     </div>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 
 </body>
 </html>

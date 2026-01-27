@@ -14,8 +14,12 @@ const requestSchema = new Schema({
         type: String,
         required: true,
     }
-}, {
-    collection: 'request_user'
+},
+{
+    timestamps: true,
+},
+{
+    collection: 'requestuser'
 }
 );
 
