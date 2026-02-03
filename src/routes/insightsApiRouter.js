@@ -13,11 +13,9 @@ const {
 // PUBLIC API ROUTES (Read-only)
 // ============================================
 
-/**
- * GET /api/articles
- * Fetch all published articles with pagination
- */
-router.get('/api/articles', async (req, res) => {
+// GET /api/insights
+// Fetch all published articles with pagination
+router.get('/api/insights', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -47,11 +45,9 @@ router.get('/api/articles', async (req, res) => {
   }
 });
 
-/**
- * GET /api/articles/:slug
- * Fetch single article by slug
- */
-router.get('/api/articles/:slug', async (req, res) => {
+// GET /api/insights/:slug
+// Fetch single article by slug
+router.get('/api/insights/:slug', async (req, res) => {
   try {
     const article = await Article.findOne({
       slug: req.params.slug,
@@ -73,11 +69,10 @@ router.get('/api/articles/:slug', async (req, res) => {
   }
 });
 
-/**
- * GET /api/articles/category/:category
- * Fetch articles by category
- */
-router.get('/api/articles/category/:category', async (req, res) => {
+
+// GET /api/insights/category/:category
+// Fetch articles by category
+router.get('/api/insights/category/:category', async (req, res) => {
   try {
     const articles = await Article.find({
       category: req.params.category,
@@ -97,13 +92,12 @@ router.get('/api/articles/category/:category', async (req, res) => {
 // ADMIN API ROUTES (CRUD) - Protected by auth
 // ============================================
 
-/**
- * POST /api/articles
- * Create new article (ADMIN)
- * Header: Authorization: Bearer {ADMIN_TOKEN}
- */
+
+// POST /api/insights
+// Create new article (ADMIN)
+// Header: Authorization: Bearer {ADMIN_TOKEN}
 router.post(
-  '/api/articles',
+  '/api/insights',
   isAdmin,
   validateArticleCreate,
   handleValidationErrors,
@@ -158,11 +152,9 @@ router.post(
   }
 );
 
-/**
- * GET /api/articles-admin/all
- * Fetch all articles (published + drafts) - ADMIN ONLY
- */
-router.get('/api/articles-admin/all', isAdmin, async (req, res) => {
+// GET /api/insights-admin/all
+// Fetch all articles (published + drafts) - ADMIN ONLY
+router.get('/api/insights-admin/all', isAdmin, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -189,12 +181,10 @@ router.get('/api/articles-admin/all', isAdmin, async (req, res) => {
   }
 });
 
-/**
- * PUT /api/articles/:id
- * Update article (ADMIN)
- */
+// PUT /api/insights/:id
+// Update article (ADMIN)
 router.put(
-  '/api/articles/:id',
+  '/api/insights/:id',
   isAdmin,
   validateArticleUpdate,
   handleValidationErrors,
@@ -226,11 +216,9 @@ router.put(
   }
 );
 
-/**
- * POST /api/articles/:id/publish
- * Publish article (ADMIN)
- */
-router.post('/api/articles/:id/publish', isAdmin, async (req, res) => {
+// POST /api/insights/:id/publish
+// Publish article (ADMIN)
+router.post('/api/insights/:id/publish', isAdmin, async (req, res) => {
   try {
     const article = await Article.findByIdAndUpdate(
       req.params.id,
@@ -257,11 +245,10 @@ router.post('/api/articles/:id/publish', isAdmin, async (req, res) => {
   }
 });
 
-/**
- * POST /api/articles/:id/unpublish
- * Unpublish article (ADMIN)
- */
-router.post('/api/articles/:id/unpublish', isAdmin, async (req, res) => {
+
+// POST /api/insights/:id/unpublish
+// Unpublish article (ADMIN)
+router.post('/api/insights/:id/unpublish', isAdmin, async (req, res) => {
   try {
     const article = await Article.findByIdAndUpdate(
       req.params.id,
@@ -287,11 +274,9 @@ router.post('/api/articles/:id/unpublish', isAdmin, async (req, res) => {
   }
 });
 
-/**
- * DELETE /api/articles/:id
- * Delete article (ADMIN)
- */
-router.delete('/api/articles/:id', isAdmin, async (req, res) => {
+// DELETE /api/insights/:id
+// Delete article (ADMIN)
+router.delete('/api/insights/:id', isAdmin, async (req, res) => {
   try {
     const article = await Article.findByIdAndDelete(req.params.id);
 
@@ -310,11 +295,9 @@ router.delete('/api/articles/:id', isAdmin, async (req, res) => {
   }
 });
 
-/**
- * POST /api/articles/:id/visualizations
- * Add visualization (ADMIN)
- */
-router.post('/api/articles/:id/visualizations', isAdmin, async (req, res) => {
+// POST /api/insights/:id/visualizations
+// Add visualization (ADMIN)
+router.post('/api/insights/:id/visualizations', isAdmin, async (req, res) => {
   try {
     const { vizId, type, tableauEmbedUrl, title, position, description } = req.body;
 
@@ -359,11 +342,10 @@ router.post('/api/articles/:id/visualizations', isAdmin, async (req, res) => {
   }
 });
 
-/**
- * DELETE /api/articles/:id/visualizations/:vizId
- * Remove visualization (ADMIN)
- */
-router.delete('/api/articles/:id/visualizations/:vizId', isAdmin, async (req, res) => {
+
+// DELETE /api/insights/:id/visualizations/:vizId
+// Remove visualization (ADMIN)
+router.delete('/api/insights/:id/visualizations/:vizId', isAdmin, async (req, res) => {
   try {
     const { id, vizId } = req.params;
 

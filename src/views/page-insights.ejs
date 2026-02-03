@@ -4,10 +4,10 @@
 <body class="bg-[#154D41]">
     
     <!-- Content Wrapper -->
-    <div class="relative z-20 mt-[1.2em]">
+    <div class="relative z-20">
         
         <!-- Header Website -->
-        <section class="mx-[1em] p-[0.5em]">
+        <section class="p-[0.5em]">
             <%- include('components/header') %>
         </section>
 
@@ -27,28 +27,26 @@
                 </div>
 
                 <!-- articles grid -->
-                <div class="px-10 flex justify-center">
+                <div class="mt-20 px-10 flex justify-center">
                     <div class="w-full max-w-6xl">
                         <% if (articles && articles.length > 0) { %>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                                 <% articles.forEach(article => { %>
-                                    <a href="/articles/<%= article.slug %>" class="group block">
+                                    <a href="/insights/<%= article.slug %>" class="group block">
                                         <div class="bg-[#010C13] bg-opacity-5 backdrop-blur-sm rounded-lg overflow-hidden hover:bg-opacity-10 transition-all duration-300 h-full flex flex-col p-6 border border-white border-opacity-10">
-                                            
-                                            <!-- Category Badge -->
-
                                             <!-- Title -->
                                             <h2 class="text-white text-xl font-bold mb-3 line-clamp-2 group-hover:text-[#8EF0DD] transition-colors">
                                                 <%= article.title %>
                                             </h2>
 
+                                            <!-- Category -->
                                             <div class="mb-4">
                                                 <span class="inline-block bg-[#8EF0DD] text-[#154D41] text-xs font-semibold px-3 py-1 rounded-full">
                                                     <%= article.category || 'Article' %>
                                                 </span>
                                             </div>
                                             
-                                            <!-- Excerpt -->
+                                            <!-- Sinopsis -->
                                             <p class="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
                                                 <%= article.excerpt || article.content.substring(0, 150) %>...
                                             </p>
@@ -72,7 +70,7 @@
                                                 <%= i %>
                                             </button>
                                         <% } else { %>
-                                            <a href="/articles?page=<%= i %>" class="px-4 py-2 rounded-lg bg-white bg-opacity-10 text-white hover:bg-opacity-20 transition-all">
+                                            <a href="/insights?page=<%= i %>" class="px-4 py-2 rounded-lg bg-white bg-opacity-10 text-white hover:bg-opacity-20 transition-all">
                                                 <%= i %>
                                             </a>
                                         <% } %>

@@ -1,14 +1,31 @@
-// Navigation Animation
-const menu = document.querySelector('nav ul');
-const menuBtn = document.querySelector('.menu-open');
-const closeBtn = document.querySelector('.menu-close');
+const navbar = document.getElementById("navbar");
+const mobileMenu = document.getElementById("mobile-menu");
+const menuBtn = document.getElementById("menu-btn");
+const closeBtn = document.getElementById("close-btn");
 
-menuBtn.addEventListener('click', function(){
-    menu.classList.add('open');
+document.addEventListener("DOMContentLoaded", () => {
+    const navbar = document.getElementById("navbar");
+
+    function handleScroll() {
+        if (window.scrollY > 50) {
+            navbar.classList.add("bg-white/15", "backdrop-blur-lg");
+        } else {
+            navbar.classList.remove("bg-white/15", "backdrop-blur-lg");
+        }
+    }
+
+    window.addEventListener("scroll", handleScroll);
 });
 
-closeBtn.addEventListener('click', function(){
-    menu.classList.remove('open');
+
+menuBtn.addEventListener("click", () => {
+    mobileMenu.classList.remove("-translate-x-full");
+    mobileMenu.classList.add("translate-x-0");
+});
+
+closeBtn.addEventListener("click", () => {
+    mobileMenu.classList.remove("translate-x-0");
+    mobileMenu.classList.add("-translate-x-full");
 });
 
 // Tableau Lazy Loading & Dynamic Embedding

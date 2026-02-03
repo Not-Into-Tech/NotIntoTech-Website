@@ -4,10 +4,16 @@
 <body class="bg-[#154D41]">
 
     <!-- Content Wrapper -->
-    <div class="relative z-20 mt-[1.2em]">
+    <!-- Create background gradient color -->
+    <!-- <div class="fixed inset-0 overflow-hidden -z-20 pointer-events-none">
+        <div class="absolute rounded-full top-80 left-1/5 -translate-x-1/2 size-130 bg-[#D10A8A]/50 blur-[100px]"></div>
+        <div class="absolute rounded-full top-80 right-0 size-100 bg-[#2E08CF]/50 blur-[100px]"></div>
+        <div class="absolute rounded-full top-0 left-1/2 -translate-x-1/2 size-130 bg-[#F26A06]/50 blur-[100px]"></div>
+    </div> -->
+    <div class="relative z-20">
         
         <!-- Header Website -->
-        <section class=" mx-[1em] p-[0.5em]">
+        <section class="p-[0.5em]">
             <%- include('components/header') %>
         </section>
 
@@ -15,48 +21,62 @@
         <section>
             <main>
                 <!-- website main cta -->
-                <div class="mt-44 px-10">
-                    <h1 class="text-white text-[3.5em] lg:text-[4.2em] text-left font-bold leading-[1.2em] mt-[45px]">
-                        Good NITE fellas
-                    </h1>
-                    <p class="text-white text-[1em] lg:text-[1.25em] text-left leading-[1.5em] mt-3">
-                        Grab a coffee and untangle the tech world with simple, late-night reads...
-                    </p>
-                    <div class="mt-18">
-                        <%- include('components/button-hover-color', {text:'Read here', link:'/coming-soon'}) %>
+                <section class="flex flex-col items-center mt-25">
+                    <div class="flex items-center gap-3">
+                        <p class="text-white text-[0.9em]">Tech, Data, AI Made Simple.</p>
+                        <!-- <button class="bg-white/10 border border-white/20 rounded-full font-medium text-white text-[0.8em] transition hover:opacity-90 active:scale-90 py-1 px-3">Launch App</button> -->
                     </div>
-                </div>
+                    <h1 class="text-center text-white text-[3em] md:text-[5em] mt-4 font-semibold tracking-tight max-w-3xl">Good NITE fellas</h1>
+                    <p class="text-center text-gray-100 text-[1.1em] max-w-md mt-4">Grab a coffee and untangle the tech world with simple, late-night reads...</p>
+                    <div class="flex flex-col md:flex-row max-md:w-full items-center gap-4 md:gap-3 mt-8 md:mt-10">
+                        <%- include('components/button-hover-color', {text:'Insights', link:'/'}) %>
+                        <%- include('components/button-hover-color', {text:'Request Data', link:'/'}) %>
+                    </div>
+                </section>
+                <!-- <section class="mt-20">
+                    <p class="py-6 text-center text-white">With team expertise on these categories —</p>
+                    <div class="flex flex-wrap justify-between max-sm:justify-center gap-10 max-w-4xl w-full mx-auto " id="logo-container">
+                        <button class="btn max-md:w-full glass flex items-center justify-center gap-2 text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-play size-4.5" aria-hidden="true">
+                                <path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z"></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                            Machine Learning
+                        </button>
+                    </div>
+                </section> -->
 
                 <!-- chatbot section -->
-                <div class="bg-[#010C13] mt-60 grid grid-cols-1 lg:grid-cols-2 gap-4 px-10 py-15 lg:py-35">
-                    <div class="py-10">
-                        <h1 class="text-white font-bold text-[45px]">Chat with our chatbot</h1>
-                        <h2 class="text-white mt-[30px] text-[1em] lg:text-[18px]">Ask your tech questions to NITE’s chatbot <br>trained specifically for tech industry</h2>
-                        <div class="mt-[40px]">
-                            <%- include('components/button-hover-color', {text:'Chat now', link:'/'}) %>
+                <section class="mt-30 bg-[#010C13] py-20">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-semibold max-w-lg mx-auto mt-4 text-white">Chat with our chatbot</h2>
+                        <p class="mt-4 text-center text-sm/7 text-gray-100 max-w-md mx-auto">Ask your tech questions to NITE’s chatbot trained specifically <br> for your industry needs</p>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-center gap-6 mt-10 px-6">
+                        <div class="hover:-translate-y-0.5 transition duration-300 p-6 rounded-xl space-y-4 bg-white/10 border border-white/20 max-w-80 w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot size-8.5" aria-hidden="true">
+                                <path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path>
+                            </svg>
+                            <h3 class="text-base font-medium text-white">RAG</h3>
+                            <p class="text-gray-100 line-clamp-2 pb-2">Tailored with RAG to embed specific knowledge on tech industry</p>
+                        </div>
+                        <div class="hover:-translate-y-0.5 transition duration-300 p-6 rounded-xl space-y-4 bg-white/10 border border-white/20 max-w-80 w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain size-8.5" aria-hidden="true">
+                                <path d="M12 18V5"></path><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"></path><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"></path><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"></path><path d="M18 18a4 4 0 0 0 2-7.464"></path><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"></path><path d="M6 18a4 4 0 0 1-2-7.464"></path><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"></path>
+                            </svg>
+                            <h3 class="text-base font-medium text-white">Latest Model</h3>
+                            <p class="text-gray-100 line-clamp-2 pb-2">Enabling latest Large Language Model from well known tech brand</p>
+                        </div>
+                        <div class="hover:-translate-y-0.5 transition duration-300 p-6 rounded-xl space-y-4 bg-white/10 border border-white/20 max-w-80 w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap size-8.5" aria-hidden="true">
+                                <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>
+                            </svg>
+                            <h3 class="text-base font-medium text-white">Free</h3>
+                            <p class="text-gray-100 line-clamp-2 pb-2">100% free of usage and easy to use (t&c applied)</p>
                         </div>
                     </div>
-                    <div class="grid grid-flow-col grid-rows-3 gap-y-7">
-                        <div class="grid grid-cols-5 gap-2 items-center w-auto h-15 lg:h-auto rounded-xl bg-[#154D41] hover:bg-[#7449F6] px-5">
-                            <img src="image-assets\icon-document-rag.png" alt="RAG chatbot" class="h-1/2 self-center justify-self-center">
-                            <div class="col-span-4">
-                                <h1 class="text-left text-white text-[0.7rem] lg:text-[0.9rem] font-medium">Tailored with RAG to embed specific knowledge on tech industry</h1>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-5 gap-2 items-center w-auto h-15 lg:h-auto rounded-xl bg-[#154D41] hover:bg-[#7449F6] px-5">
-                            <img src="image-assets\icon-llm-brand.png" alt="LLM brand" class="h-1/2 self-center justify-self-center">
-                            <div class="col-span-4">
-                                <h1 class="text-left text-white text-[0.7rem] lg:text-[0.9rem] font-medium">Enabling latest Large Language Model from well known tech brand</h1>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-5 gap-2 items-center w-auto h-15 lg:h-auto rounded-xl bg-[#154D41] hover:bg-[#7449F6] px-5">
-                            <img src="image-assets\icon-free.png" alt="Chatbot free" class="h-1/2 self-center justify-self-center">
-                            <div class="col-span-4">
-                                <h1 class="text-left text-white text-[0.7rem] lg:text-[0.9rem] font-medium">100% free of usage and easy to use (t&c applied)</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </section>
+                
 
                 <!-- product section -->
                 <div class="mt-20 pt-10 pb-0">
@@ -111,15 +131,15 @@
                 <div class="bg-[#010C13] mt-25 px-2 lg:px-10 py-18">
                     <h1 class="text-white text-center font-semibold text-[45px] pb-7">Become our partner</h1>
                     <div class="py-10 px-2 lg:px-15 grid grid-cols-3 lg:grid-cols-6 gap-y-15 justify-items-center items-center">
-                        <div class="flex w-[100px] h-[100px] rounded-xl bg-[#7449F6] hover:bg-[#8742A7]"></div>
+                        <div class="flex w-[100px] h-[100px] rounded-xl bg-[#7449F6] hover:bg-[#8742A7] hover:-translate-y-0.5"></div>
                         <h3 class="col-span-2 text-white text-left text-[15px]">Get early access to our latest research and data analysis on tech industry</h3>
-                        <div class="flex w-[100px] h-[100px] rounded-xl bg-[#7449F6] hover:bg-[#8742A7]"></div>
+                        <div class="flex w-[100px] h-[100px] rounded-xl bg-[#7449F6] hover:bg-[#8742A7] hover:-translate-y-0.5"></div>
                         <h3 class="col-span-2 text-white text-left text-[15px]">Become our first priority on research and data request list</h3>
                         
                         <h3 class="col-span-2 text-white text-left text-[15px]">Gain opportunity to join our team brainstorm session on product innovation</h3>
-                        <div class="flex w-[100px] h-[100px] rounded-xl bg-[#7449F6] hover:bg-[#8742A7]"></div>
+                        <div class="flex w-[100px] h-[100px] rounded-xl bg-[#7449F6] hover:bg-[#8742A7] hover:-translate-y-0.5"></div>
                         <h3 class="col-span-2 text-white text-left text-[15px]">Access to private consultation session with our team and partners</h3>
-                        <div class="flex w-[100px] h-[100px] rounded-xl bg-[#7449F6] hover:bg-[#8742A7]"></div>
+                        <div class="flex w-[100px] h-[100px] rounded-xl bg-[#7449F6] hover:bg-[#8742A7] hover:-translate-y-0.5"></div>
                     </div>
                     <div class="mt-14 justify-items-center">
                         <%- include('components/button-hover-color', {text:'Contact us', link:'/coming-soon'}) %>

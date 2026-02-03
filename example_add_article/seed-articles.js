@@ -1,3 +1,4 @@
+// to run this code: open terminal and type "node example_add_article/seed-articles.js"
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Article = require('./src/model/article-model');
@@ -6,50 +7,6 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 // Sample articles with visualizations
 const sampleArticles = [
-  {
-    title: 'Climate Change 2025: Data Insights',
-    slug: 'climate-change-2025-data-insights',
-    content: `
-      <h2>Introduction</h2>
-      <p>Climate change remains one of the most pressing global challenges. This article explores the latest data and trends for 2025.</p>
-      
-      <h3>Key Findings</h3>
-      <ul>
-        <li>Global temperatures continue to rise</li>
-        <li>Carbon emissions patterns are shifting</li>
-        <li>Renewable energy adoption accelerating</li>
-      </ul>
-      
-      <p>The data visualizations below show detailed trends across different regions and time periods.</p>
-    `,
-    excerpt: 'Exploring the latest climate data and trends for 2025 with interactive visualizations',
-    category: 'Data Science',
-    tags: ['climate', 'data', 'environment', '2025'],
-    author: 'Sarah Smith',
-    featuredImage: 'https://images.unsplash.com/photo-1559027615-cd2628902d4a?w=800',
-    seoMetaDescription: 'Climate change analysis with 2025 data insights and visualizations',
-    seoKeywords: ['climate', 'data analysis', 'environment', 'trends'],
-    status: 'published',
-    publishedAt: new Date('2025-01-05'),
-    visualizations: [
-      {
-        id: 'viz_climate_001',
-        type: 'tableau',
-        tableauEmbedUrl: 'https://public.tableau.com/views/COVID-19Dashboard/Dashboard1',
-        title: 'Global Temperature Trends 2020-2025',
-        position: 1,
-        description: 'Interactive visualization showing temperature anomalies across continents'
-      },
-      {
-        id: 'viz_climate_002',
-        type: 'tableau',
-        tableauEmbedUrl: 'https://public.tableau.com/views/WorldIndicators/GDPandPopulation',
-        title: 'Carbon Emissions by Region',
-        position: 2,
-        description: 'Regional breakdown of carbon emissions with year-over-year comparison'
-      }
-    ]
-  },
   {
     title: 'AI & Machine Learning Trends 2025',
     slug: 'ai-machine-learning-trends-2025',
@@ -127,46 +84,44 @@ const sampleArticles = [
   }
 ];
 
-/**
- * Seed the database with sample articles
- */
+// Seed the database with sample articles
 async function seedDatabase() {
   try {
-    console.log('🌱 Starting database seed...');
-    console.log(`📍 Connecting to MongoDB: ${MONGODB_URI.substring(0, 50)}...`);
+    console.log('Starting database seed...');
+    console.log(` Connecting to MongoDB: ${MONGODB_URI.substring(0, 50)}...`);
 
     // Connect to MongoDB
     await mongoose.connect(MONGODB_URI, {
       dbName: 'notintotech-website'
     });
 
-    console.log('✅ Connected to MongoDB');
+    console.log('Connected to MongoDB');
 
     // Optional: Clear existing articles (comment out if you want to keep existing data)
-    const deleteCount = await Article.deleteMany({});
-    console.log(`🗑️  Deleted ${deleteCount.deletedCount} existing articles`);
+    // const deleteCount = await Article.deleteMany({});
+    // console.log(`Deleted ${deleteCount.deletedCount} existing articles`);
 
     // Insert sample articles
     const result = await Article.insertMany(sampleArticles);
-    console.log(`✅ Successfully created ${result.length} sample articles:`);
+    console.log(`Successfully created ${result.length} sample articles:`);
 
     result.forEach((article, index) => {
       console.log(`\n  ${index + 1}. "${article.title}"`);
-      console.log(`     📝 Slug: ${article.slug}`);
-      console.log(`     🏷️  Category: ${article.category}`);
-      console.log(`     📊 Visualizations: ${article.visualizations.length}`);
-      console.log(`     🔗 View at: http://localhost:3000/articles/${article.slug}`);
+      console.log(`     Slug: ${article.slug}`);
+      console.log(`     Category: ${article.category}`);
+      console.log(`     Visualizations: ${article.visualizations.length}`);
+      console.log(`     View at: http://(IP/Port/URL)/articles/${article.slug}`);
     });
 
-    console.log('\n🎉 Database seed completed successfully!');
-    console.log('\n📋 Next steps:');
+    console.log('\nDatabase seed completed successfully!');
+    console.log('\nNext steps:');
     console.log('   1. Start your server: npm run dev');
-    console.log('   2. Visit: http://localhost:3000/articles');
+    console.log('   2. Visit: http://(IP/Port/URL)/articles');
     console.log('   3. Click any article to view details and visualizations');
 
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding database:', error.message);
+    console.error('Error seeding database:', error.message);
     process.exit(1);
   }
 }
