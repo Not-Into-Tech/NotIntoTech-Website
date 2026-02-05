@@ -2,14 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/handler.js",
+      "src": "server-local.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
+      "src": "/static/(.*)",
+      "dest": "public/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "api/handler.js"
+      "dest": "server-local.js"
     }
   ]
 }
