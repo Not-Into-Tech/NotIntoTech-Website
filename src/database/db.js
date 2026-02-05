@@ -17,7 +17,6 @@ const connectDB = async () => {
         console.log('Environment:', process.env.NODE_ENV || 'development');
     } catch (err) {
         console.error('Error connecting to the database:', err);
-        process.exit(1);
     }
 };
 
