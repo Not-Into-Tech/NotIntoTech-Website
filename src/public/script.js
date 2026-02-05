@@ -1,24 +1,130 @@
-// Navigation Animation
-const menu = document.querySelector('nav ul');
-const menuBtn = document.querySelector('.menu-open');
-const closeBtn = document.querySelector('.menu-close');
+const navbar = document.getElementById("navbar");
+const mobileMenu = document.getElementById("mobile-menu");
+const menuBtn = document.getElementById("menu-btn");
+const closeBtn = document.getElementById("close-btn");
 
-menuBtn.addEventListener('click', function(){
-    menu.classList.add('open');
-});
+document.addEventListener("DOMContentLoaded", () => {
+    const navbar = document.getElementById("navbar");
 
-closeBtn.addEventListener('click', function(){
-    menu.classList.remove('open');
-});
-
-function validateFeedback(){
-    var feedback_name = document.getElementById("feedback-name");
-    var feedback_email = document.getElementById("feedback-email");
-    var feedback_text = document.getElementById("feedback-text");
-
-    if (feedback_name.value === "" || feedback_email.value === "" || feedback_text.value === ''){
-        alert("Please fill out all fields");
-        return false;
+    function handleScroll() {
+        if (window.scrollY > 50) {
+            navbar.classList.add("bg-white/15", "backdrop-blur-lg");
+        } else {
+            navbar.classList.remove("bg-white/15", "backdrop-blur-lg");
+        }
     }
-    return true;
-}
+
+    window.addEventListener("scroll", handleScroll);
+});
+
+
+menuBtn.addEventListener("click", () => {
+    mobileMenu.classList.remove("-translate-x-full");
+    mobileMenu.classList.add("translate-x-0");
+});
+
+closeBtn.addEventListener("click", () => {
+    mobileMenu.classList.remove("translate-x-0");
+    mobileMenu.classList.add("-translate-x-full");
+});
+
+// Tableau Lazy Loading & Dynamic Embedding
+(function() {
+    let tableauScriptLoaded = false;
+
+    /**
+     * Load the Tableau Embedding API script dynamically
+     */
+    function loadTableauScript(callback) {
+        if (tableauScriptLoaded) {
+            if (callback) callback();
+            return;
+        }
+
+        tableauScriptLoaded = true;
+
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
+
+        script.onload = () => {
+            console.log('Tableau script loaded successfully');
+            if (callback) callback();
+        };
+
+        script.onerror = () => {
+            console.error('Failed to load Tableau embedding script');
+            tableauScriptLoaded = false;
+        };
+
+        document.body.appendChild(script);
+    }
+
+    /**
+     * Parse & render visible Tableau visualizations
+     */
+    function parseTableauVizs() {
+        // Move data-src to src so Tableau can embed
+        document.querySelectorAll('tableau-viz.visible-for-tableau:not([src])').forEach(viz => {
+            const dataSrc = viz.getAttribute('data-src');
+            if (dataSrc) {
+                viz.setAttribute('src', dataSrc);
+            }
+        });
+
+        // Trigger Tableau parsing if library is ready
+        if (window.tableau && window.tableau.Embedding) {
+            window.tableau.Embedding.parse();
+        } else {
+            console.warn('Tableau Embedding API not ready');
+        }
+    }
+
+    /**
+     * Watch for tableau-viz elements entering viewport
+     */
+    function initTableauObserver() {
+        const tableauVizs = document.querySelectorAll('tableau-viz[data-src]');
+        
+        if (!tableauVizs.length) return;
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !entry.target.classList.contains('visible-for-tableau')) {
+                            entry.target.classList.add('visible-for-tableau');
+                            
+                            // Load Tableau script and parse
+                            loadTableauScript(() => {
+                                parseTableauVizs();
+                            });
+
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                { rootMargin: '200px' }
+            );
+
+            tableauVizs.forEach(viz => {
+                observer.observe(viz);
+            });
+        } else {
+            // Fallback for browsers without IntersectionObserver
+            tableauVizs.forEach(viz => {
+                viz.classList.add('visible-for-tableau');
+            });
+            loadTableauScript(() => {
+                parseTableauVizs();
+            });
+        }
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTableauObserver);
+    } else {
+        initTableauObserver();
+    }
+})();

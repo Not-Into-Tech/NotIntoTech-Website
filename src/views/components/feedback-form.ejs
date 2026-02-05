@@ -1,25 +1,24 @@
-<div class="bg-[#010C13] mt-20 px-10 py-18">
-    <h1 class="text-white text-center font-semibold text-[30px] pb-7">Send Us Your Feedback</h1>
+<div>
     <form id="feedbackForm" action="/feedback-form" method="post" onsubmit="return validateFeedback()">
-        <div class="mb-5 text-[0.85em]">
+        <div class="mb-5 text-[0.8em] lg:text-[1em]">
             <label for="feedback-name" class="block mb-2 font-medium text-white">Your name</label>
             <input type="text" id="feedback-name" name="feedback-name" class="block w-full focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none text-neutral-400 placeholder-neutral-500 focus:ring-neutral-600 py-2.5 sm:py-3 px-4" placeholder="Name">
         </div>
 
-        <div class="mb-5 sm:mb-4 text-[0.85em]">
+        <div class="mb-5 sm:mb-4 text-[0.8em] lg:text-[1em]">
             <label for="feedback-email" class="block mb-2 font-medium text-white">Email address</label>
             <input type="email" id="feedback-email" name="feedback-email" class="block w-full rounded-lg focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none text-neutral-400 placeholder-neutral-500 focus:ring-neutral-600 py-2.5 sm:py-3 px-4" placeholder="Email">
         </div>
 
-        <div>
-            <label for="feedback-text" class="block mb-2 text-[0.85em] font-medium text-white">Feedback</label>
-            <div class="text-[0.85em]">
+        <div class="mb-5 sm:mb-4 text-[0.8em] lg:text-[1em]">
+            <label for="feedback-text" class="block mb-2 font-medium text-white">Feedback</label>
+            <div>
                 <textarea id="feedback-text" name="feedback-text" rows="3" class="block w-full rounded-lg focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none text-neutral-400 placeholder-neutral-500 focus:ring-neutral-600 py-2.5 sm:py-3 px-4" placeholder="Leave your feedback here..."></textarea>
             </div>
         </div>
 
-        <div class="mt-6 grid text-[0.85em]">
-            <button type="submit" class="w-full inline-flex justify-center items-center text-[0.85em] text-white font-medium rounded-lg border border-transparent bg-[#7449F6] hover:bg-[#8742A7] focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none gap-x-2 py-3 px-4">Submit</button>
+        <div class="mt-6 grid text-[0.9em]">
+            <button type="submit" class="bg-white/10 border border-white/20 rounded-full px-8 py-2.5 font-medium text-white transition hover:opacity-90 active:scale-98">Submit</button>
         </div>
     </form>
 </div>

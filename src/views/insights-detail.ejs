@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('components/head', { text: 'Insights' }) %>
+<body class="bg-[#154D41]">
+    
+    <!-- Content Wrapper -->
+    <div class="relative z-20">
+        
+        <!-- Header Website -->
+        <section class="p-[0.5em]">
+            <%- include('components/header') %>
+        </section>
+
+        <!-- Main Content -->
+        <section>
+            <main class="px-10 flex justify-center">
+                <article class="w-full max-w-3xl py-12">
+                    
+                    <!-- Article Header -->
+                    <div class="mb-8">
+                        <!-- Category -->
+                        <div class="mb-4">
+                            <span class="inline-block bg-[#8EF0DD] text-[#154D41] text-xs font-semibold px-3 py-1 rounded-full">
+                                <%= article.category || 'Article' %>
+                            </span>
+                        </div>
+
+                        <!-- Title -->
+                        <h1 class="text-white text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                            <%= article.title %>
+                        </h1>
+
+                        <!-- Meta Info -->
+                        <div class="flex flex-wrap gap-4 text-gray-400 text-sm pb-6 border-b border-white border-opacity-10">
+                            <span>By <strong class="text-white"><%= article.author || 'NITE Team' %></strong></span>
+                            <span><%= new Date(article.publishedAt || article.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+                            <span id="viewCount"><%= article.views || 0 %> views</span>
+                        </div>
+                    </div>
+
+                    <!-- Article Content -->
+                    <div class="prose prose-invert max-w-none mb-12">
+                        <div class="text-white leading-relaxed text-base lg:text-lg">
+                            <%- article.content %>
+                        </div>
+                    </div>
+
+                    <!-- Visualizations Section -->
+                    <% if (article.visualizations && article.visualizations.length > 0) { %>
+                        <section class="my-16 border-t border-white border-opacity-10 pt-12">
+                            <h2 class="text-white text-3xl font-bold mb-8">Data Visualizations</h2>
+                            
+                            <% article.visualizations
+                                .sort((a, b) => (a.position || 0) - (b.position || 0))
+                                .forEach(viz => { %>
+                                
+                                <div class="mb-12 bg-[#010C13] bg-opacity-5 backdrop-blur-sm rounded-lg p-8 border border-white border-opacity-10">
+                                    
+                                    <!-- Visualization Title -->
+                                    <% if (viz.title) { %>
+                                        <h3 class="text-white text-2xl font-bold mb-2">
+                                            <%= viz.title %>
+                                        </h3>
+                                    <% } %>
+
+                                    <!-- Visualization Description -->
+                                    <% if (viz.description) { %>
+                                        <p class="text-gray-300 text-sm mb-6">
+                                            <%= viz.description %>
+                                        </p>
+                                    <% } %>
+
+                                    <!-- Tableau Embed -->
+                                    <% if (viz.type === 'tableau' && viz.tableauEmbedUrl) { %>
+                                        <div class="bg-black bg-opacity-30 rounded-lg overflow-hidden min-h-[600px]">
+                                            <tableau-viz 
+                                                id="tableau-<%= viz.id %>"
+                                                data-src="<%= viz.tableauEmbedUrl %>"
+                                                width="100%" 
+                                                height="600"
+                                                style="display: block;">
+                                            </tableau-viz>
+                                        </div>
+                                    <% } else { %>
+                                        <div class="bg-white bg-opacity-10 rounded-lg p-8 text-center text-gray-400">
+                                            Visualization not available
+                                        </div>
+                                    <% } %>
+
+                                </div>
+
+                            <% }); %>
+
+                        </section>
+                    <% } %>
+
+                    <!-- Tags Section -->
+                    <% if (article.tags && article.tags.length > 0) { %>
+                        <section class="border-t border-white border-opacity-10 pt-8">
+                            <h4 class="text-white font-semibold mb-4">Tags</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <% article.tags.forEach(tag => { %>
+                                    <a href="/insights?tag=<%= tag %>" class="inline-block bg-[#010C13] bg-opacity-10 hover:bg-opacity-20 text-white px-4 py-2 rounded-full text-sm transition-all">
+                                        #<%= tag %>
+                                    </a>
+                                <% }); %>
+                            </div>
+                        </section>
+                    <% } %>
+
+                </article>
+            </main>
+        </section>
+
+        <!-- Footer Website -->
+        <section>
+            <%- include('components/footer') %>
+        </section>
+        
+    </div>
+
+    <script src="/script.js"></script>
+
+    <!-- Tableau Lazy Loading & Rendering -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if ('IntersectionObserver' in window) {
+                const tableauVizs = document.querySelectorAll('tableau-viz');
+                
+                if (tableauVizs.length) {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                // Mark for loading
+                                entry.target.classList.add('visible-for-tableau');
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { rootMargin: '200px' });
+
+                    tableauVizs.forEach(viz => {
+                        observer.observe(viz);
+                    });
+                }
+            } else {
+                // Fallback for older browsers
+                document.querySelectorAll('tableau-viz').forEach(v => {
+                    v.classList.add('visible-for-tableau');
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

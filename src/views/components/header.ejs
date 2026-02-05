@@ -1,30 +1,35 @@
-<header class="flex justify-between items-center">
-    <!-- logo on header -->
-    <div>
-        <!-- <a href="/">
-            <img src="image-assets/Logo%20White%20(Size%20L).svg" alt="IdeaBox Logo" class="h-8">
-        </a> -->
-        <a class="text-white no-underline font-bold text-[1.5rem] hover:text-[#8EF0DD]" href="/">Not Into Tech</a>
-    </div>
-
-    <!-- navigation bar -->
-    <nav>
-        <a href="#" class="menu-open block lg:hidden">
-            <img src="image-assets/hamburger%20menu.svg" alt="Open menu" class="w-8 h-8">
+<nav id="navbar" class="fixed top-0 z-50 flex w-full items-center justify-between px-3 py-3.5 md:px-5 transition-all duration-300">
+    <div class="flex place-items-center gap-2">
+        <a href="/">
+            <img src="/image-assets/Not%20Into%20Tech%20White%20Logo.png" alt="Not Into Tech Logo" class="h-8">
         </a>
-        <ul class="fixed bg-[#031F30] w-1/3.5 h-full top-0 right-0 text-[1rem] text-right list-none space-y-3.5 space-x-1.5 z-50 px-[1em]">
-            <li class="block lg:hidden my-[2em]">
-                <a href="#" class="menu-close text-white no-underline font-bold">
-                    <img src="image-assets/close%20icon.svg" alt="Close menu" class="w-[40px] h-[40px]">
-                </a>
-            </li>
-            <li><a class="text-white no-underline font-medium hover:text-[#8EF0DD]" href="/insights">Insights</a></li>
-            <li><a class="text-white no-underline font-medium hover:text-[#8EF0DD]" href="/data">Data</a></li>
-            <li><a class="text-white no-underline font-medium hover:text-[#8EF0DD]" href="/coming-soon">AI</a></li>
-            <li>
-                <!-- <a class="text-white no-underline font-medium hover:text-[#8EF0DD]" href="/coming-soon">Contact Us</a> -->
-                <%- include('header-button', {text:'Contact us', link:'/coming-soon'}) %>
-            </li>
-        </ul>
-    </nav>
-</header>
+        <a class="text-white no-underline font-bold sm:text-[1rem] md:text-[1.5rem] hover:text-[#8EF0DD]" href="/">Not Into Tech</a>
+    </div>
+    <div class="hidden items-center space-x-10 md:flex">
+        <a class="transition text-white text-[0.8rem] no-underline font-medium hover:text-[#8EF0DD]" href="/insights">Insights</a>
+        <a class="transition text-white text-[0.8rem] no-underline font-medium hover:text-[#8EF0DD]" href="/data">Data</a>
+        <a class="transition text-white text-[0.8rem] no-underline font-medium hover:text-[#8EF0DD]" href="/coming-soon">AI</a>
+        <a class="bg-white/10 border border-white/20 rounded-full px-4 py-2 font-medium text-white text-[0.8rem] transition hover:opacity-90 active:scale-98" href="/profile">Contact Us</a>
+    </div>
+    <button id="menu-btn" class="transition active:scale-90 md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu size-6.5" aria-hidden="true">
+            <path d="M4 5h16"></path>
+            <path d="M4 12h16"></path>
+            <path d="M4 19h16"></path>
+        </svg>
+    </button>
+</nav>
+
+<div id="mobile-menu" class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-[#010C13]/20 text-white text-[1rem] font-medium backdrop-blur-2xl transition duration-300 md:hidden -translate-x-full">
+    <a href="/">Home</a>
+    <a href="/insights">Insights</a>
+    <a href="/data">Data</a>
+    <a href="/coming-soon">AI</a>
+    <a class="bg-white/10 border border-white/20 rounded-full px-8 py-2.5 font-medium text-white transition hover:opacity-90 active:scale-98" href="/profile">Contact Us</a>
+    <button id="close-btn" class="rounded-md p-2 bg-white/10 border border-white/20 transition hover:opacity-90 active:scale-50">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x" aria-hidden="true">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+        </svg>
+    </button>
+</div>

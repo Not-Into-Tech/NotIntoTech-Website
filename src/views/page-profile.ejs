@@ -1,62 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('components/head', { text: 'Profile NITE' }) %>
+<%- include('components/head', { text: 'Profile' }) %>
 <body class="bg-[#154D41]">
     
     <!-- Content Wrapper -->
-    <div class="relative z-20 mt-[1.5em] mx-[1em] p-[0.5em]"> 
+    <div class="relative z-20">
         
         <!-- Header Website -->
-        <section>
+        <section class="p-[0.5em]">
             <%- include('components/header') %>
         </section>
 
         <!-- Main Content -->
-        <section>
-            <main>
-                <!-- main cta -->
-                <section>
-                    <div class="mt-25 mb-8">
-                        <h1 class="text-white text-4xl text-center font-bold leading-[1.2em] mt-[40px]">
-                            Request Data
-                            From Internet,
-                            <div class="w-[100px] bg-[#863687] hover:bg-[#4FE8C9] inline-block align-middle rounded-xl  transition ease-in">
-                                <h1 class="font-bold">Now</h1>
-                            </div>
-                        </h1>
-                    </div>
-                </section>
-                
-                <!-- request card -->
-                <section>
-                    <div class="mx-auto max-w-2xl relative z-10 rounded-xl bg-neutral-900 border-neutral-700 p-10">
-                        <!-- request form -->
-                        <form id="request-form">
-                            <div class="mb-4 sm:mb-8">
-                                <label for="request-name" class="block mb-2 text-sm font-medium text-white">Your name</label>
-                                <input type="text" id="request-name" name="request-name" class="block w-full sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-700 text-neutral-400 placeholder-neutral-500 focus:ring-neutral-600 py-2.5 sm:py-3 px-4" placeholder="Full name">
-                            </div>
+        <section class="min-h-screen flex items-center">
+            <div class="w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
+                <!-- Left Content -->
+                <div class="max-w-xl">
+                    <p class="text-white/80 text-sm uppercase mb-4">A letter from our</p>
+                    <h1 class="text-white text-4xl md:text-5xl font-semibold mb-6">Partner</h1>
 
-                            <div class="mb-4 sm:mb-8">
-                                <label for="request-email" class="block mb-2 text-sm font-medium text-white">Email address</label>
-                                <input type="email" id="request-email" name="request-email" class="block w-full rounded-lg sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-700 text-neutral-400 placeholder-neutral-500 focus:ring-neutral-600 py-2.5 sm:py-3 px-4" placeholder="Email address">
-                            </div>
+                    <p class="text-white/90 mb-8">
+                        Perceive technology advancement &amp; it's utilization from various 
+                        perspectives to help industry adapt &amp; thrive in the ever-evolving tech landscape.
+                    </p>
 
-                            <div>
-                                <label for="request-text" class="block mb-2 text-sm font-medium text-white">Tell us your request</label>
-                                <div class="mt-1">
-                                    <textarea id="request-text" name="request-text" rows="3" class="block w-full rounded-lg sm:text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-neutral-700 text-neutral-400 placeholder-neutral-500 focus:ring-neutral-600 py-2.5 sm:py-3 px-4" placeholder="Leave your comment here..."></textarea>
-                                </div>
-                            </div>
+                    <a
+                        href="https://www.linkedin.com/in/adnanbayufirdaus/"
+                        class="inline-block bg-[#010C13]/80 border border-white/60 text-white px-6 py-3 text-sm font-medium rounded-xl hover:bg-[#010C13]/40 transition"
+                    >
+                        Read Adnan's full profile
+                    </a>
+                </div>
 
-                            <div class="mt-6 grid">
-                                <button type="submit" class="w-full inline-flex justify-center items-center text-sm text-white font-medium rounded-lg border border-transparent bg-blue-600 hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none gap-x-2 py-3 px-4">Submit</button>
-                            </div>
-                        </form>
-                        <!-- end request form -->
-                    </div>
-                </section>
-            </main>
+                <!-- Right Content -->
+                <div class="flex justify-center lg:justify-end">
+                    <img
+                        src="/image-assetsadnan-profile.png"
+                        alt="Partner Portrait"
+                        class="w-full max-w-md object-cover rounded-xl"
+                    />
+                </div>
+            </div>
         </section>
 
         <!-- Footer Website -->
