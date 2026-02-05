@@ -1,18 +1,22 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const connectDB = require('../src/database/db');
-const router = require('../src/routes/router');
 
 let app;
 let dbConnected = false;
 
-const createApp = () => {
+const createApp = async () => {
     const app = express();
 
+    // Lazy load DB connection
     if (!dbConnected) {
-        connectDB().catch(err => console.error('DB connection error:', err));
-        dbConnected = true;
+        try {
+            const connectDB = require('../src/database/db');
+            await connectDB();
+            dbConnected = true;
+        } catch (err) {
+            console.error('DB connection error:', err.message);
+        }
     }
 
     app.use(express.json());
@@ -22,7 +26,15 @@ const createApp = () => {
     app.set('view engine', 'ejs');
     app.set('views', path.join(__dirname, '../src/views'));
 
-    app.use('/', router);
+    try {
+        const router = require('../src/routes/router');
+        app.use('/', router);
+    } catch (err) {
+        console.error('Router error:', err);
+        app.get('/', (req, res) => {
+            res.status(500).send('Router initialization error');
+        });
+    }
 
     // Error handling middleware
     app.use((err, req, res, next) => {
@@ -33,9 +45,14 @@ const createApp = () => {
     return app;
 };
 
-module.exports = (req, res) => {
-    if (!app) {
-        app = createApp();
+module.exports = async (req, res) => {
+    try {
+        if (!app) {
+            app = await createApp();
+        }
+        return app(req, res);
+    } catch (err) {
+        console.error('Handler error:', err);
+        res.status(500).json({ error: 'Function initialization failed', message: err.message });
     }
-    return app(req, res);
 };
