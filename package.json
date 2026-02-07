@@ -5,6 +5,7 @@
   "main": "server-local.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx @tailwindcss/cli -i ./src/public/main.css -o ./src/public/output.css",
     "dev:css": "npx @tailwindcss/cli -i ./src/public/main.css -o ./src/public/output.css --watch",
     "dev:server": "nodemon server-local.js",
     "start": "node server-local.js",
