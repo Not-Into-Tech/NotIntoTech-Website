@@ -16,10 +16,11 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.1.11",
     "dotenv": "^17.2.3",
+    "dompurify": "^3.0.6",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-validator": "^7.3.1",
-    "isomorphic-dompurify": "^2.35.0",
+    "jsdom": "^23.0.0",
     "mongoose": "^8.19.1",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.11"

@@ -934,6 +934,9 @@
   .text-\[\#154D41\] {
     color: #154D41;
   }
+  .text-black {
+    color: var(--color-black);
+  }
   .text-gray-100 {
     color: var(--color-gray-100);
   }
