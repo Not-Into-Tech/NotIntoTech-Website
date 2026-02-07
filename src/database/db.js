@@ -9,15 +9,14 @@ const connectDB = async () => {
             throw new Error('MONGODB_URI is not defined in environment variables');
         }
         
-        await mongoose.connect(url, {
-            dbName: 'notintotech-website'
-        });
-        
-        console.log('Database is connected to: notintotech-website');
-        console.log('Environment:', process.env.NODE_ENV || 'development');
+        if (mongoose.connection.readyState === 0) {
+            await mongoose.connect(url, {
+                dbName: 'notintotech-website'
+            });
+            console.log('Database is connected to: notintotech-website');
+        }
     } catch (err) {
-        console.error('Error connecting to the database:', err);
-        process.exit(1);
+        console.error('Error connecting to the database:', err.message);
     }
 };
 
