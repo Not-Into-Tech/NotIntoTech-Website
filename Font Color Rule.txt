@@ -1,0 +1,10 @@
+NITE Website Font Size Rules
+H1	: 3em
+H2	: 2em
+H3	: 1em
+P	: 0.9em
+Button	: 0.8em
+
+Color Palette
+Green	: 154D41
+Blue	: 010C13
