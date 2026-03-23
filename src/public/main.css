@@ -6,18 +6,18 @@
 }
 
 /* Navigation Bar Section */
-nav ul{
+nav ul {
     transform: translateX(100%);
     transition: transform 0.5s;
 }
 
 /* Screen Adjust Section */
-.open{
+.open {
     transform: translateX(0%);
 }
 
-@media (min-width: 1200px){
-    nav ul{
+@media (min-width: 1200px) {
+    nav ul {
         position: unset;
         background: none;
         display: flex;

@@ -3,6 +3,7 @@ const mobileMenu = document.getElementById("mobile-menu");
 const menuBtn = document.getElementById("menu-btn");
 const closeBtn = document.getElementById("close-btn");
 
+// Navbar Mobile Responsive (DOM Manipulation)
 document.addEventListener("DOMContentLoaded", () => {
     const navbar = document.getElementById("navbar");
 
@@ -17,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", handleScroll);
 });
 
-
 menuBtn.addEventListener("click", () => {
     mobileMenu.classList.remove("-translate-x-full");
     mobileMenu.classList.add("translate-x-0");
@@ -28,8 +28,11 @@ closeBtn.addEventListener("click", () => {
     mobileMenu.classList.add("-translate-x-full");
 });
 
+// Chatbot Section
+
+
 // Tableau Lazy Loading & Dynamic Embedding
-(function() {
+(function () {
     let tableauScriptLoaded = false;
 
     /**
@@ -85,7 +88,7 @@ closeBtn.addEventListener("click", () => {
      */
     function initTableauObserver() {
         const tableauVizs = document.querySelectorAll('tableau-viz[data-src]');
-        
+
         if (!tableauVizs.length) return;
 
         if ('IntersectionObserver' in window) {
@@ -94,7 +97,7 @@ closeBtn.addEventListener("click", () => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting && !entry.target.classList.contains('visible-for-tableau')) {
                             entry.target.classList.add('visible-for-tableau');
-                            
+
                             // Load Tableau script and parse
                             loadTableauScript(() => {
                                 parseTableauVizs();

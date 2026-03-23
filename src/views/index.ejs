@@ -17,25 +17,16 @@
                 <main>
 
                     <!-- website main cta -->
-                    <section id="home"
-                        class="relative min-h-screen flex items-center justify-center bg-[#010C13] pt-20 mt-5">
+                    <section class="relative min-h-screen flex items-center justify-center bg-[#010C13] pt-20 mt-5">
 
                         <!-- background elements -->
                         <div class="absolute inset-0 z-0">
                             <!-- radial glow for depth -->
                             <div
-                                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#154D41]/20 rounded-full blur-[120px]">
+                                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#154D41]/30 rounded-full blur-[120px] pointer-events-none">
                             </div>
                             <!-- grid pattern -->
-                            <svg class="absolute inset-0 w-full h-full opacity-[0.03]"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <pattern id="hero-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1" />
-                                    </pattern>
-                                </defs>
-                                <rect width="100%" height="100%" fill="url(#hero-grid)" />
-                            </svg>
+                            <div class="absolute inset-0 opacity-40 pointer-events-none"></div>
                         </div>
 
                         <div class="relative z-10 max-w-4xl mx-auto px-6 flex flex-col items-center text-center">
@@ -48,24 +39,43 @@
 
                             <!-- main heading -->
                             <div class="relative inline-block">
-                                <!-- floating icon 1 -->
-                                <div class="absolute -top-12 -left-12 p-3 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 rotate-[-12deg] animate-bounce hidden md:block"
-                                    style="animation-duration: 4s;">
-                                    <i data-lucide="coffee" class="text-white w-6 h-6"></i>
-                                </div>
-
-                                <!-- floating icon 2 -->
-                                <div
-                                    class="absolute -bottom-4 -right-8 p-3 bg-white/5 backdrop-blur-md rounded-full border border-white/10 rotate-[15deg] animate-pulse hidden md:block">
-                                    <i data-lucide="sparkles" class="text-white w-5 h-5"></i>
-                                </div>
-
                                 <h1
                                     class="text-[2em] md:text-[3em] text-white leading-tight font-bold tracking-tight mb-8">
                                     Hi
                                     <span class="text-[#154D41] italic">Not Into Tech</span>
                                     peeps
                                 </h1>
+
+                                <!-- floating icon 1 -->
+                                <div class="absolute -top-12 -left-20 p-3 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 rotate-[-12deg] animate-bounce hidden md:block"
+                                    style="animation-duration: 5s;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="text-white w-6 h-6">
+                                        <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+                                        <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
+                                        <line x1="6" y1="2" x2="6" y2="4" />
+                                        <line x1="10" y1="2" x2="10" y2="4" />
+                                        <line x1="14" y1="2" x2="14" y2="4" />
+                                    </svg>
+                                </div>
+
+                                <!-- floating icon 2 -->
+                                <div
+                                    class="absolute -bottom-0 -right-40 p-3 bg-white/5 backdrop-blur-md rounded-full border border-white/10 rotate-[15deg] animate-pulse hidden md:block">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="text-white w-5 h-5">
+                                        <path
+                                            d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+                                        <path d="m5 3 1 1" />
+                                        <path d="m19 19 1 1" />
+                                        <path d="m5 19 1-1" />
+                                        <path d="m19 3 1-1" />
+                                    </svg>
+                                </div>
+
+
                             </div>
 
                             <h3
@@ -83,8 +93,13 @@
                             </div>
 
                             <!-- Scroll Down Indicator -->
-                            <div class="mt-24 animate-bounce opacity-30">
-                                <i data-lucide="mouse-wheel" class="text-white w-6 h-6"></i>
+                            <div class="mt-20 opacity-50 animate-bounce">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="white" stroke-width="1" stroke-linecap="round"
+                                    stroke-linejoin="round" class="w-6 h-6">
+                                    <path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3Z" />
+                                    <path d="m13 13 6 6" />
+                                </svg>
                             </div>
                         </div>
                     </section>
@@ -116,8 +131,13 @@
                                     <input id="chat-input" type="text" placeholder="Inquire about proprietary LLMs..."
                                         class="flex-grow border border-slate-200 focus:outline-none focus:ring-1 focus:ring-[#154D41] px-4 py-2">
                                     <button onclick="sendMessage()"
-                                        class="bg-[#154D41] text-white p-2 hover:bg-[#010C13] transition-colors">
-                                        <i data-lucide="send" class="w-5 h-5"></i>
+                                        class="bg-[#154D41] p-3 rounded-xl hover:scale-105 transition-transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                                            <line x1="22" y1="2" x2="11" y2="13" />
+                                            <polyline points="22 2 15 22 11 13 2 9 22 2" />
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
@@ -134,19 +154,37 @@
                                 </h3>
                                 <ul class="space-y-4">
                                     <li class="flex items-start gap-3">
-                                        <i data-lucide="shield-check" class="w-6 h-6 text-white flex-shrink-0"></i>
+                                        <div class="bg-[#154D41]/20 p-3 rounded-xl h-fit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="text-[#154D41] w-6 h-6">
+                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+                                                <path d="m9 12 2 2 4-4" />
+                                            </svg>
+                                        </div>
                                         <div>
-                                            <span class="text-[0.9em] font-bold text-white">Zero-Trust
-                                                Intelligence:</span>
+                                            <span class="text-[0.9em] font-bold text-white">
+                                                Zero-Trust Intelligence:
+                                            </span>
                                             <p class="text-[0.9em] text-white">
                                                 Your proprietary IP remains entirely isolated and local.
                                             </p>
                                         </div>
                                     </li>
                                     <li class="flex items-start gap-3">
-                                        <i data-lucide="database" class="w-6 h-6 text-white flex-shrink-0"></i>
+                                        <div class="bg-[#154D41]/20 p-3 rounded-xl h-fit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="text-[#154D41] w-6 h-6">
+                                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                                            </svg>
+                                        </div>
                                         <div>
-                                            <span class="text-[0.9em] font-bold text-white">Alpha Generation:</span>
+                                            <span class="text-[0.9em] font-bold text-white">
+                                                Alpha Generation:
+                                            </span>
                                             <p class="text-[0.9em] text-white">
                                                 Using predictive modeling to identify market inefficiencies.
                                             </p>
@@ -177,8 +215,13 @@
                                 <div
                                     class="group border border-7 border-[#010C13] hover:border-[#154D41] hover:scale-105 transition-all bg-[#fcfcfc] relative overflow-hidden p-8">
                                     <div
-                                        class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
-                                        <i data-lucide="cpu" class="w-12 h-12 text-[#154D41]"></i>
+                                        class="w-12 h-12 bg-[#154D41]/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="#154D41" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                                        </svg>
                                     </div>
                                     <h3 class="text-[1em] font-bold text-[#010C13] mb-4">
                                         Insights
@@ -196,8 +239,15 @@
                                 <div
                                     class="group border border-7 border-[#010C13] hover:border-[#154D41] hover:scale-105 transition-all bg-[#fcfcfc] relative overflow-hidden p-8">
                                     <div
-                                        class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
-                                        <i data-lucide="bar-chart-3" class="w-12 h-12 text-[#154D41]"></i>
+                                        class="w-12 h-12 bg-[#154D41]/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="#154D41" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                            <line x1="12" y1="22.08" x2="12" y2="12" />
+                                        </svg>
                                     </div>
                                     <h3 class="text-[1em] font-bold text-[#010C13] mb-4">
                                         Dataset
@@ -215,8 +265,15 @@
                                 <div
                                     class="group border border-7 border-[#010C13] hover:border-[#154D41] hover:scale-105 transition-all bg-[#fcfcfc] relative overflow-hidden p-8">
                                     <div
-                                        class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
-                                        <i data-lucide="layers" class="w-12 h-12 text-[#154D41]"></i>
+                                        class="w-12 h-12 bg-[#154D41]/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="#154D41" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <line x1="2" y1="12" x2="22" y2="12" />
+                                            <path
+                                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                                        </svg>
                                     </div>
                                     <h3 class="text-[1em] font-bold text-[#010C13] mb-4">
                                         Artificial Intelligence
@@ -239,15 +296,9 @@
                     <section id="partners"
                         class="bg-gradient-to-br from-[#154D41] to-[#010C13] text-white overflow-hidden relative py-24">
 
-                        <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-                            <svg viewBox="0 0 100 100" class="w-full h-full">
-                                <defs>
-                                    <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5" />
-                                    </pattern>
-                                </defs>
-                                <rect width="100" height="100" fill="url(#grid)" />
-                            </svg>
+                        <!-- background elements -->
+                        <div class="absolute inset-0 pointer-events-none opacity-20">
+                            <div class="absolute inset-0"></div>
                         </div>
 
                         <div class="max-w-7xl mx-auto relative z-10 px-6">
@@ -260,20 +311,20 @@
                                     terminal risks of technical stagnation.
                                 </p>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 mb-12">
-                                    <div class="pl-6">
+                                    <div class="border-l border-white/20 pl-6">
                                         <p class="font-bold text-[0.9em] mb-2">Early Access</p>
                                         <p class="text-slate-400 text-[0.9em]">
                                             Get early access to our latest research and data analysis.
                                         </p>
                                     </div>
-                                    <div class="pl-6">
+                                    <div class="border-l border-white/20 pl-6">
                                         <p class="font-bold text-[0.9em] mb-2">Brainstorm Session</p>
                                         <p class="text-slate-400 text-[0.9em]">
                                             Joint ventures designed to pioneer the next generation of industry
                                             standards.
                                         </p>
                                     </div>
-                                    <div class="pl-6">
+                                    <div class="border-l border-white/20 pl-6">
                                         <p class="font-bold text-[0.9em] mb-2">Strategy Transformation</p>
                                         <p class="text-slate-400 text-[0.9em]">
                                             Total modernization of the digital core with a focus on long-term
@@ -305,8 +356,15 @@
                                     <div class="space-y-6">
 
                                         <div class="flex items-center gap-4">
-                                            <div class="w-12 h-12 bg-slate-50 flex items-center justify-center">
-                                                <i data-lucide="mail" class="text-[#154D41] w-6 h-6"></i>
+                                            <div
+                                                class="w-14 h-14 bg-white/5 flex items-center justify-center rounded-2xl group-hover:bg-[#154D41]/20 transition-colors">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="text-[#154D41] w-6 h-6">
+                                                    <rect width="20" height="16" x="2" y="4" rx="2" />
+                                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                                                </svg>
                                             </div>
                                             <div>
                                                 <div
@@ -320,8 +378,15 @@
                                         </div>
 
                                         <div class="flex items-center gap-4">
-                                            <div class="w-12 h-12 bg-slate-50 flex items-center justify-center">
-                                                <i data-lucide="globe" class="text-[#154D41] w-6 h-6"></i>
+                                            <div
+                                                class="w-14 h-14 bg-white/5 flex items-center justify-center rounded-2xl group-hover:bg-[#154D41]/20 transition-colors">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="text-[#154D41] w-6 h-6">
+                                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                                                    <circle cx="12" cy="10" r="3" />
+                                                </svg>
                                             </div>
                                             <div>
                                                 <div
@@ -336,7 +401,7 @@
                                     </div>
                                 </div>
 
-                                <div class="bg-[#154D41] p-10 border border-slate-100">
+                                <div class="bg-white/5 rounded-3xl border border-white/10 backdrop-blur-sm p-10">
                                     <%- include('components/feedback-form') %>
                                 </div>
                             </div>
