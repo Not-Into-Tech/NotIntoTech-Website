@@ -31,3 +31,17 @@ nav ul {
 html {
     scroll-behavior: smooth;
 }
+
+/* Chatbot Styling Section */
+#chat-window::-webkit-scrollbar {
+    width: 4px;
+}
+
+#chat-window::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+#chat-window::-webkit-scrollbar-thumb {
+    background: rgba(21, 77, 65, 0.5);
+    border-radius: 10px;
+}

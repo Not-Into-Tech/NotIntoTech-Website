@@ -1,9 +1,8 @@
+// Navbar Mobile Responsive (DOM Manipulation)
 const navbar = document.getElementById("navbar");
 const mobileMenu = document.getElementById("mobile-menu");
 const menuBtn = document.getElementById("menu-btn");
 const closeBtn = document.getElementById("close-btn");
-
-// Navbar Mobile Responsive (DOM Manipulation)
 document.addEventListener("DOMContentLoaded", () => {
     const navbar = document.getElementById("navbar");
 
@@ -28,10 +27,65 @@ closeBtn.addEventListener("click", () => {
     mobileMenu.classList.add("-translate-x-full");
 });
 
+
 // Chatbot Section
+const PROXY_ENDPOINT = '/api/chat';
+
+document.addEventListener("DOMContentLoaded", () => {
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatWindow = document.getElementById('chat-window');
+
+    if (!chatForm) return;
+
+    function addMessage(text, isUser = false) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = isUser
+            ? "bg-[#010C13]/80 p-4 rounded-lg self-end text-white border-r-2 border-[#154D41] max-w-[80%]"
+            : "bg-[#154D41]/10 p-4 rounded-lg self-start text-black border-l-2 border-[#154D41] max-w-[80%]";
+        msgDiv.textContent = text;
+        chatWindow.appendChild(msgDiv);
+
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        addMessage(text, true);
+        chatInput.value = '';
+
+        try {
+            const response = await fetch(PROXY_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text })
+            });
+
+            const data = await response.json();
+
+            // Handle n8n output structure
+            const botResponse = data.output || data.response || "Synthesis complete, but no output generated.";
+            addMessage(botResponse);
+
+        } catch (error) {
+            addMessage("The Advisory Core is temporarily unreachable. Please check server logs.");
+        }
+    });
+});
 
 
-// Tableau Lazy Loading & Dynamic Embedding
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 50) nav.classList.add('bg-[#010C13]');
+    else nav.classList.remove('bg-[#010C13]');
+});
+
+
+// Articles Tableau Lazy Loading & Dynamic Embedding
 (function () {
     let tableauScriptLoaded = false;
 
