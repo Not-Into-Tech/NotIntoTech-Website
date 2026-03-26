@@ -32,6 +32,13 @@ closeBtn.addEventListener("click", () => {
 const PROXY_ENDPOINT = '/api/chat';
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Generate or retrieve a unique session ID for this user's chat session
+    let sessionId = sessionStorage.getItem('chatSessionId');
+    if (!sessionId) {
+        sessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 15);
+        sessionStorage.setItem('chatSessionId', sessionId);
+    }
+
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const chatWindow = document.getElementById('chat-window');
@@ -61,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch(PROXY_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: text })
+                body: JSON.stringify({ message: text, sessionId: sessionId })
             });
 
             const data = await response.json();
@@ -71,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
             addMessage(botResponse);
 
         } catch (error) {
-            addMessage("The Advisory Core is temporarily unreachable. Please check server logs.");
+            addMessage("The NITE chatbot is temporarily unreachable. Please check server logs.");
         }
     });
 });
