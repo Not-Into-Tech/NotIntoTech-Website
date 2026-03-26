@@ -21,7 +21,11 @@ app.set('views', path.join(__dirname, 'src/views'));
 // Proxy Route for Chatbot
 app.post('/api/chat', async (req, res) => {
     try {
-        const { message } = req.body;
+        const { message, sessionId } = req.body || {};
+
+        if (!message) {
+            return res.status(400).json({ error: "Missing 'message' in request body. Please ensure your Postman body is set to 'raw' -> 'JSON' and contains a valid JSON string with double quotes." });
+        }
 
         const n8nUrl = process.env.N8N_WEBHOOK_URL;
 
@@ -30,23 +34,32 @@ app.post('/api/chat', async (req, res) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 message: message,
+                sessionId: sessionId || 'default-session',
                 source: 'web-client',
                 timestamp: new Date().toISOString()
             })
         });
 
         if (!n8nResponse.ok) {
-            throw new Error(`n8n responded with status: ${n8nResponse.status}`);
+            const errBody = await n8nResponse.text();
+            throw new Error(`chatbot responded with status: ${n8nResponse.status}, body: ${errBody}`);
         }
 
-        const data = await n8nResponse.json();
+        const rawText = await n8nResponse.text();
+        let data;
+        try {
+            // Attempt to parse as JSON, fallback to text if not valid JSON or empty
+            data = rawText ? JSON.parse(rawText) : { response: "Empty response from chatbot" };
+        } catch (e) {
+            data = { response: rawText };
+        }
 
         // Send the n8n response back to the browser
         res.json(data);
 
     } catch (error) {
         console.error('Proxy Error:', error);
-        res.status(500).json({ error: 'Failed to communicate with the advisory core.' });
+        res.status(500).json({ error: 'Failed to communicate with the chatbot.', details: error.message });
     }
 });
 
