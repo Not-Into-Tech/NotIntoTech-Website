@@ -3,7 +3,6 @@ const navbar = document.getElementById("navbar");
 const mobileMenu = document.getElementById("mobile-menu");
 const menuBtn = document.getElementById("menu-btn");
 const closeBtn = document.getElementById("close-btn");
-
 document.addEventListener("DOMContentLoaded", () => {
     const navbar = document.getElementById("navbar");
 
@@ -59,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         const text = chatInput.value.trim();
         if (!text) return;
 
@@ -75,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const data = await response.json();
 
-            // Handle chatbot respond structure
+            // Handle n8n output structure
             const botResponse = data.output || data.response || "Synthesis complete, but no output generated.";
             addMessage(botResponse);
 

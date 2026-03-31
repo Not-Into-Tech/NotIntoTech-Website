@@ -14,15 +14,17 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'src/public')));
-app.set('view engine', 'ejs');
 
-// Proxy route for chatbot
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'src/views'));
+
+// Proxy Route for Chatbot
 app.post('/api/chat', async (req, res) => {
     try {
         const { message, sessionId } = req.body || {};
 
         if (!message) {
-            return res.status(400).json({ error: "Missing 'message' in request" });
+            return res.status(400).json({ error: "Missing 'message' in request body. Please ensure your Postman body is set to 'raw' -> 'JSON' and contains a valid JSON string with double quotes." });
         }
 
         const n8nUrl = process.env.N8N_WEBHOOK_URL;
@@ -32,7 +34,7 @@ app.post('/api/chat', async (req, res) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 message: message,
-                sessionId: sessionId || 'default_session',
+                sessionId: sessionId || 'default-session',
                 source: 'web-client',
                 timestamp: new Date().toISOString()
             })
@@ -45,15 +47,14 @@ app.post('/api/chat', async (req, res) => {
 
         const rawText = await n8nResponse.text();
         let data;
-
-        // parse json data
         try {
+            // Attempt to parse as JSON, fallback to text if not valid JSON or empty
             data = rawText ? JSON.parse(rawText) : { response: "Empty response from chatbot" };
         } catch (e) {
             data = { response: rawText };
         }
 
-        // send the n8n response back to the browser
+        // Send the n8n response back to the browser
         res.json(data);
 
     } catch (error) {

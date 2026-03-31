@@ -17,11 +17,11 @@ router.use('/', insightsRoutes);
 router.use('/', feedbackformRoutes);
 router.use('/', requestRoutes);
 router.use('/', requestformRoutes);
+router.use('/', comingsoonRoutes);
 router.use('/', datasetRoutes);
+router.use('/', errorRoutes);
 router.use('/', aiRoutes);
 router.use('/', profileRoutes);
 router.use('/', insightsApiRoutes);
-router.use('/', comingsoonRoutes);
-router.use('/', errorRoutes);
 
 module.exports = router;
