@@ -1241,6 +1241,23 @@
       }
     }
   }
+  .hover\:scale-110 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-scale-x: 110%;
+        --tw-scale-y: 110%;
+        --tw-scale-z: 110%;
+        scale: var(--tw-scale-x) var(--tw-scale-y);
+      }
+    }
+  }
+  .hover\:border-\[\#8EF0DD\] {
+    &:hover {
+      @media (hover: hover) {
+        border-color: #8EF0DD;
+      }
+    }
+  }
   .hover\:border-\[\#154D41\] {
     &:hover {
       @media (hover: hover) {

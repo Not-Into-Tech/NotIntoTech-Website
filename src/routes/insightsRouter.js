@@ -3,34 +3,8 @@ const router = express.Router();
 const Article = require('../model/article-model');
 
 // Display articles list page
-router.get('/insights', async (req, res) => {
-  try {
-    const page = req.query.page || 1;
-    const limit = 9;
-    const skip = (page - 1) * limit;
-
-    const articles = await Article.find({status: 'published'})
-      .sort({publishedAt: -1})
-      .skip(skip)
-      .limit(limit);
-
-    const total = await Article.countDocuments({ status: 'published' });
-
-    res.render('page-insights', {
-      articles,
-      pagination: {
-        page: parseInt(page),
-        limit,
-        total,
-        pages: Math.ceil(total / limit),
-      },
-    });
-  } catch (error) {
-    res.status(500).render('error', { 
-      error: 'Failed to load articles',
-      message: error.message 
-    });
-  }
+router.get('/insights', (req, res) => {
+  res.render('page-insights');
 });
 
 // Display single article

@@ -1,7 +1,7 @@
 // to run this code: open terminal and type "node example_add_article/seed-articles.js"
 require('dotenv').config();
 const mongoose = require('mongoose');
-const Article = require('./src/model/article-model');
+const Article = require('../src/model/article-model');
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
