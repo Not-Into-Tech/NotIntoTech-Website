@@ -1,11 +1,18 @@
-// to run this code: open terminal and type "node example_add_article/seed-articles.js"
+// to run this code: open terminal and type "node add-articles.js"
 require('dotenv').config();
-const mongoose = require('mongoose');
-const Article = require('../src/model/article-model');
+const { createClient } = require('@supabase/supabase-js');
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY; // Note: For seeding, ideally you use SERVICE_ROLE_KEY to bypass RLS, but ANON_KEY might work if RLS allows public insert (unlikely) or if you just use service key.
 
-// Sample articles with visualizations
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  console.error('Missing Supabase credentials in .env file!');
+  process.exit(1);
+}
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Sample articles directly mapping to the new Supabase schema
 const sampleArticles = [
   {
     title: 'AI & Machine Learning Trends 2025',
@@ -29,21 +36,12 @@ const sampleArticles = [
     category: 'Technology',
     tags: ['AI', 'machine learning', 'technology', 'innovation'],
     author: 'John Chen',
-    featuredImage: 'https://images.unsplash.com/photo-1677442d019cecf595a59103f9a5e6b85267db40?w=800',
-    seoMetaDescription: 'AI and machine learning trends for 2025 with industry analysis',
-    seoKeywords: ['artificial intelligence', 'machine learning', 'technology', 'AI trends'],
+    featured_image: 'https://images.unsplash.com/photo-1677442d019cecf595a59103f9a5e6b85267db40?w=800',
+    seo_meta_description: 'AI and machine learning trends for 2025 with industry analysis',
+    seo_keywords: ['artificial intelligence', 'machine learning', 'technology', 'AI trends'],
     status: 'published',
-    publishedAt: new Date('2025-01-03'),
-    visualizations: [
-      {
-        id: 'viz_ai_001',
-        type: 'tableau',
-        tableauEmbedUrl: 'https://public.tableau.com/views/WorldIndicators/GDPandPopulation',
-        title: 'AI Investment by Sector 2025',
-        position: 1,
-        description: 'Distribution of venture capital and corporate investment in AI across different industries'
-      }
-    ]
+    published_at: new Date('2025-01-03').toISOString(),
+    tableau_url: 'https://public.tableau.com/views/WorldIndicators/GDPandPopulation'
   },
   {
     title: 'Digital Transformation in Finance',
@@ -66,62 +64,53 @@ const sampleArticles = [
     category: 'Business',
     tags: ['finance', 'digital transformation', 'technology', 'business'],
     author: 'Emily Rodriguez',
-    featuredImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
-    seoMetaDescription: 'Digital transformation trends in finance and banking sector analysis',
-    seoKeywords: ['digital transformation', 'finance', 'fintech', 'blockchain'],
+    featured_image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
+    seo_meta_description: 'Digital transformation trends in finance and banking sector analysis',
+    seo_keywords: ['digital transformation', 'finance', 'fintech', 'blockchain'],
     status: 'published',
-    publishedAt: new Date('2025-01-01'),
-    visualizations: [
-      {
-        id: 'viz_finance_001',
-        type: 'tableau',
-        tableauEmbedUrl: 'https://public.tableau.com/views/COVID-19Dashboard/Dashboard1',
-        title: 'Digital Adoption Rates in Financial Services',
-        position: 1,
-        description: 'Percentage of financial institutions adopting key digital technologies'
-      }
-    ]
+    published_at: new Date('2025-01-01').toISOString(),
+    tableau_url: 'https://public.tableau.com/views/COVID-19Dashboard/Dashboard1'
   }
 ];
 
 // Seed the database with sample articles
 async function seedDatabase() {
   try {
-    console.log('Starting database seed...');
-    console.log(` Connecting to MongoDB: ${MONGODB_URI.substring(0, 50)}...`);
-
-    // Connect to MongoDB
-    await mongoose.connect(MONGODB_URI, {
-      dbName: 'notintotech-website'
-    });
-
-    console.log('Connected to MongoDB');
-
-    // Optional: Clear existing articles (comment out if you want to keep existing data)
-    // const deleteCount = await Article.deleteMany({});
-    // console.log(`Deleted ${deleteCount.deletedCount} existing articles`);
+    console.log('Starting database seed to Supabase...');
+    console.log(`Connecting to Supabase: ${SUPABASE_URL.substring(0, 50)}...`);
 
     // Insert sample articles
-    const result = await Article.insertMany(sampleArticles);
-    console.log(`Successfully created ${result.length} sample articles:`);
+    const { data: result, error } = await supabase
+      .from('articles')
+      .insert(sampleArticles)
+      .select();
+
+    if (error) {
+      if (error.code === '42501') {
+        throw new Error('RLS Policy blocked the insert.');
+      }
+      throw error;
+    }
+
+    console.log(`Successfully created ${result.length} sample articles!`);
 
     result.forEach((article, index) => {
       console.log(`\n  ${index + 1}. "${article.title}"`);
       console.log(`     Slug: ${article.slug}`);
       console.log(`     Category: ${article.category}`);
-      console.log(`     Visualizations: ${article.visualizations.length}`);
-      console.log(`     View at: http://(IP/Port/URL)/articles/${article.slug}`);
+      console.log(`     Tableau URL Attached: ${article.tableau_url ? 'Yes' : 'No'}`);
+      console.log(`     View at: http://localhost:3000/insights/${article.slug}`);
     });
 
     console.log('\nDatabase seed completed successfully!');
     console.log('\nNext steps:');
     console.log('   1. Start your server: npm run dev');
-    console.log('   2. Visit: http://(IP/Port/URL)/articles');
+    console.log('   2. Visit: http://localhost:3000/insights');
     console.log('   3. Click any article to view details and visualizations');
 
     process.exit(0);
   } catch (error) {
-    console.error('Error seeding database:', error.message);
+    console.error('Error seeding database:\n', error.message);
     process.exit(1);
   }
 }

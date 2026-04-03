@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Article = require('../model/article-model');
-const {isAdmin} = require('../middleware/authMiddleware');
+const supabase = require('../database/supabaseClient');
+const { isAdmin } = require('../middleware/authMiddleware');
 const sanitizeArticle = require('../middleware/sanitizeArticle');
 const { 
   validateArticleCreate, 
@@ -9,25 +9,35 @@ const {
   handleValidationErrors 
 } = require('../middleware/validateArticle');
 
+// Standardized select query with aliases to maintain compatibility
+const ARTICLE_SELECT = 'id, title, slug, content, excerpt, category, tags, author, featuredImage:featured_image, seoMetaDescription:seo_meta_description, seoKeywords:seo_keywords, status, tableauUrl:tableau_url, views, publishedAt:published_at, createdAt:created_at, updatedAt:updated_at';
+
 // ============================================
 // PUBLIC API ROUTES (Read-only)
 // ============================================
 
 // GET /api/insights
-// Fetch all published articles with pagination
 router.get('/api/insights', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const articles = await Article.find({ status: 'published' })
-      .sort({ publishedAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .select('title slug excerpt category tags createdAt publishedAt author views featuredImage');
+    const { count, error: countError } = await supabase
+      .from('articles')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'published');
 
-    const total = await Article.countDocuments({ status: 'published' });
+    if (countError) throw countError;
+
+    const { data: articles, error } = await supabase
+      .from('articles')
+      .select(ARTICLE_SELECT)
+      .eq('status', 'published')
+      .order('published_at', { ascending: false })
+      .range(skip, skip + limit - 1);
+
+    if (error) throw error;
 
     res.json({
       success: true,
@@ -35,8 +45,8 @@ router.get('/api/insights', async (req, res) => {
       pagination: {
         page,
         limit,
-        total,
-        pages: Math.ceil(total / limit),
+        total: count,
+        pages: Math.ceil(count / limit),
       },
     });
   } catch (error) {
@@ -46,21 +56,23 @@ router.get('/api/insights', async (req, res) => {
 });
 
 // GET /api/insights/:slug
-// Fetch single article by slug
 router.get('/api/insights/:slug', async (req, res) => {
   try {
-    const article = await Article.findOne({
-      slug: req.params.slug,
-      status: 'published',
-    });
+    const { data: article, error } = await supabase
+      .from('articles')
+      .select(ARTICLE_SELECT)
+      .eq('slug', req.params.slug)
+      .eq('status', 'published')
+      .single();
 
-    if (!article) {
+    if (error || !article) {
       return res.status(404).json({ success: false, error: 'Article not found' });
     }
 
     // Increment views
-    article.views = (article.views || 0) + 1;
-    await article.save();
+    const newViews = (article.views || 0) + 1;
+    await supabase.from('articles').update({ views: newViews }).eq('id', article.id);
+    article.views = newViews;
 
     res.json({ success: true, data: article });
   } catch (error) {
@@ -69,17 +81,17 @@ router.get('/api/insights/:slug', async (req, res) => {
   }
 });
 
-
 // GET /api/insights/category/:category
-// Fetch articles by category
 router.get('/api/insights/category/:category', async (req, res) => {
   try {
-    const articles = await Article.find({
-      category: req.params.category,
-      status: 'published',
-    })
-      .sort({ publishedAt: -1 })
-      .select('title slug excerpt category publishedAt author views');
+    const { data: articles, error } = await supabase
+      .from('articles')
+      .select(ARTICLE_SELECT)
+      .eq('category', req.params.category)
+      .eq('status', 'published')
+      .order('published_at', { ascending: false });
+
+    if (error) throw error;
 
     res.json({ success: true, data: articles });
   } catch (error) {
@@ -92,10 +104,7 @@ router.get('/api/insights/category/:category', async (req, res) => {
 // ADMIN API ROUTES (CRUD) - Protected by auth
 // ============================================
 
-
 // POST /api/insights
-// Create new article (ADMIN)
-// Header: Authorization: Bearer {ADMIN_TOKEN}
 router.post(
   '/api/insights',
   isAdmin,
@@ -104,7 +113,7 @@ router.post(
   sanitizeArticle,
   async (req, res) => {
     try {
-      const { title, content, category, excerpt, tags, author, visualizations, seoMetaDescription, seoKeywords, featuredImage } = req.body;
+      const { title, content, category, excerpt, tags, author, tableauUrl, seoMetaDescription, seoKeywords, featuredImage } = req.body;
 
       // Auto-generate slug
       const slug = title
@@ -115,7 +124,7 @@ router.post(
         .substring(0, 100);
 
       // Check slug uniqueness
-      const existingArticle = await Article.findOne({ slug });
+      const { data: existingArticle } = await supabase.from('articles').select('id').eq('slug', slug).single();
       if (existingArticle) {
         return res.status(400).json({ 
           success: false, 
@@ -123,22 +132,26 @@ router.post(
         });
       }
 
-      const article = new Article({
-        title,
-        slug,
-        content,
-        excerpt: excerpt || content.substring(0, 150),
-        category: category || 'Other',
-        tags: tags || [],
-        author: author || 'NITE Team',
-        visualizations: visualizations || [],
-        seoMetaDescription: seoMetaDescription || excerpt || content.substring(0, 160),
-        seoKeywords: seoKeywords || [],
-        featuredImage: featuredImage || null,
-        status: 'draft',
-      });
+      const { data: article, error } = await supabase
+        .from('articles')
+        .insert([{
+          title,
+          slug,
+          content,
+          excerpt: excerpt || content.substring(0, 150),
+          category: category || 'Other',
+          tags: tags || [],
+          author: author || 'NITE Team',
+          tableau_url: tableauUrl || null,
+          seo_meta_description: seoMetaDescription || excerpt || content.substring(0, 160),
+          seo_keywords: seoKeywords || [],
+          featured_image: featuredImage || null,
+          status: 'draft',
+        }])
+        .select(ARTICLE_SELECT)
+        .single();
 
-      await article.save();
+      if (error) throw error;
 
       res.status(201).json({ 
         success: true, 
@@ -153,7 +166,6 @@ router.post(
 );
 
 // GET /api/insights-admin/all
-// Fetch all articles (published + drafts) - ADMIN ONLY
 router.get('/api/insights-admin/all', isAdmin, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -161,19 +173,28 @@ router.get('/api/insights-admin/all', isAdmin, async (req, res) => {
     const status = req.query.status;
     const skip = (page - 1) * limit;
 
-    const filter = status ? { status } : {};
+    let query = supabase.from('articles').select('*', { count: 'exact' });
+    if (status) {
+      query = query.eq('status', status);
+    }
+    
+    // Get count first
+    const { count, error: countError } = await query;
+    if (countError) throw countError;
 
-    const articles = await Article.find(filter)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
+    // Get data
+    let dataQuery = supabase.from('articles').select(ARTICLE_SELECT).order('created_at', { ascending: false }).range(skip, skip + limit - 1);
+    if (status) {
+      dataQuery = dataQuery.eq('status', status);
+    }
 
-    const total = await Article.countDocuments(filter);
+    const { data: articles, error } = await dataQuery;
+    if (error) throw error;
 
     res.json({
       success: true,
       data: articles,
-      pagination: { page, limit, total, pages: Math.ceil(total / limit) },
+      pagination: { page, limit, total: count, pages: Math.ceil(count / limit) },
     });
   } catch (error) {
     console.error('Error fetching admin articles:', error);
@@ -182,7 +203,6 @@ router.get('/api/insights-admin/all', isAdmin, async (req, res) => {
 });
 
 // PUT /api/insights/:id
-// Update article (ADMIN)
 router.put(
   '/api/insights/:id',
   isAdmin,
@@ -193,14 +213,30 @@ router.put(
     try {
       const updates = { ...req.body };
       delete updates.status; // Prevent status change via PUT
+      
+      // Map camelCase back to snake_case for Supabase
+      const updatePayload = {};
+      if (updates.title !== undefined) updatePayload.title = updates.title;
+      if (updates.content !== undefined) updatePayload.content = updates.content;
+      if (updates.category !== undefined) updatePayload.category = updates.category;
+      if (updates.excerpt !== undefined) updatePayload.excerpt = updates.excerpt;
+      if (updates.tags !== undefined) updatePayload.tags = updates.tags;
+      if (updates.author !== undefined) updatePayload.author = updates.author;
+      if (updates.tableauUrl !== undefined) updatePayload.tableau_url = updates.tableauUrl;
+      if (updates.seoMetaDescription !== undefined) updatePayload.seo_meta_description = updates.seoMetaDescription;
+      if (updates.seoKeywords !== undefined) updatePayload.seo_keywords = updates.seoKeywords;
+      if (updates.featuredImage !== undefined) updatePayload.featured_image = updates.featuredImage;
 
-      const article = await Article.findByIdAndUpdate(
-        req.params.id,
-        { ...updates, updatedAt: new Date() },
-        { new: true, runValidators: true }
-      );
+      updatePayload.updated_at = new Date().toISOString();
 
-      if (!article) {
+      const { data: article, error } = await supabase
+        .from('articles')
+        .update(updatePayload)
+        .eq('id', req.params.id)
+        .select(ARTICLE_SELECT)
+        .single();
+
+      if (error || !article) {
         return res.status(404).json({ success: false, error: 'Article not found' });
       }
 
@@ -217,20 +253,20 @@ router.put(
 );
 
 // POST /api/insights/:id/publish
-// Publish article (ADMIN)
 router.post('/api/insights/:id/publish', isAdmin, async (req, res) => {
   try {
-    const article = await Article.findByIdAndUpdate(
-      req.params.id,
-      { 
+    const { data: article, error } = await supabase
+      .from('articles')
+      .update({ 
         status: 'published', 
-        publishedAt: new Date(),
-        updatedAt: new Date()
-      },
-      { new: true }
-    );
+        published_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', req.params.id)
+      .select(ARTICLE_SELECT)
+      .single();
 
-    if (!article) {
+    if (error || !article) {
       return res.status(404).json({ success: false, error: 'Article not found' });
     }
 
@@ -247,19 +283,19 @@ router.post('/api/insights/:id/publish', isAdmin, async (req, res) => {
 
 
 // POST /api/insights/:id/unpublish
-// Unpublish article (ADMIN)
 router.post('/api/insights/:id/unpublish', isAdmin, async (req, res) => {
   try {
-    const article = await Article.findByIdAndUpdate(
-      req.params.id,
-      { 
+    const { data: article, error } = await supabase
+      .from('articles')
+      .update({ 
         status: 'draft',
-        updatedAt: new Date()
-      },
-      { new: true }
-    );
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', req.params.id)
+      .select(ARTICLE_SELECT)
+      .single();
 
-    if (!article) {
+    if (error || !article) {
       return res.status(404).json({ success: false, error: 'Article not found' });
     }
 
@@ -275,19 +311,23 @@ router.post('/api/insights/:id/unpublish', isAdmin, async (req, res) => {
 });
 
 // DELETE /api/insights/:id
-// Delete article (ADMIN)
 router.delete('/api/insights/:id', isAdmin, async (req, res) => {
   try {
-    const article = await Article.findByIdAndDelete(req.params.id);
+    const { data: article, error } = await supabase
+      .from('articles')
+      .delete()
+      .eq('id', req.params.id)
+      .select('id')
+      .single();
 
-    if (!article) {
+    if (error || !article) {
       return res.status(404).json({ success: false, error: 'Article not found' });
     }
 
     res.json({ 
       success: true, 
       message: 'Article deleted successfully',
-      data: { deletedId: article._id }
+      data: { deletedId: article.id }
     });
   } catch (error) {
     console.error('Error deleting article:', error);
@@ -295,82 +335,7 @@ router.delete('/api/insights/:id', isAdmin, async (req, res) => {
   }
 });
 
-// POST /api/insights/:id/visualizations
-// Add visualization (ADMIN)
-router.post('/api/insights/:id/visualizations', isAdmin, async (req, res) => {
-  try {
-    const { vizId, type, tableauEmbedUrl, title, position, description } = req.body;
-
-    // Validate required fields
-    if (!vizId || !tableauEmbedUrl) {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'vizId and tableauEmbedUrl are required' 
-      });
-    }
-
-    const article = await Article.findByIdAndUpdate(
-      req.params.id,
-      {
-        $push: {
-          visualizations: {
-            id: vizId,
-            type: type || 'tableau',
-            tableauEmbedUrl,
-            title: title || 'Visualization',
-            position: position || 1,
-            description: description || '',
-          }
-        },
-        updatedAt: new Date()
-      },
-      { new: true }
-    );
-
-    if (!article) {
-      return res.status(404).json({ success: false, error: 'Article not found' });
-    }
-
-    res.json({ 
-      success: true, 
-      message: 'Visualization added successfully',
-      data: article 
-    });
-  } catch (error) {
-    console.error('Error adding visualization:', error);
-    res.status(500).json({ success: false, error: 'Failed to add visualization' });
-  }
-});
-
-
-// DELETE /api/insights/:id/visualizations/:vizId
-// Remove visualization (ADMIN)
-router.delete('/api/insights/:id/visualizations/:vizId', isAdmin, async (req, res) => {
-  try {
-    const { id, vizId } = req.params;
-
-    const article = await Article.findByIdAndUpdate(
-      id,
-      {
-        $pull: { visualizations: { id: vizId } },
-        updatedAt: new Date()
-      },
-      { new: true }
-    );
-
-    if (!article) {
-      return res.status(404).json({ success: false, error: 'Article not found' });
-    }
-
-    res.json({ 
-      success: true, 
-      message: 'Visualization removed successfully',
-      data: article 
-    });
-  } catch (error) {
-    console.error('Error removing visualization:', error);
-    res.status(500).json({ success: false, error: 'Failed to remove visualization' });
-  }
-});
+// Note: Visualizations specific endpoints /visualizations are omitted here because
+// we rely on the main PUT endpoint with tableauUrl.
 
 module.exports = router;
