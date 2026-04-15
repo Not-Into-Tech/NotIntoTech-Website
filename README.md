@@ -103,7 +103,7 @@ NotIntoTech-Website/
    N8N_WEBHOOK_URL=your_n8n_webhook_url
    ```
 
-4. **Run the development server**
+4. **Run the local development server**
    ```bash
    npm run dev
    ```
