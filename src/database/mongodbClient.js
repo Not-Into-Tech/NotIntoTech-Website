@@ -13,10 +13,10 @@ const connectDB = async () => {
             await mongoose.connect(url, {
                 dbName: 'notintotech-website'
             });
-            console.log('Database is connected to: notintotech-website');
+            console.log('Database is connected to: mongo notintotech-website');
         }
     } catch (err) {
-        console.error('Error connecting to the database:', err.message);
+        console.error('Error connecting to the mongo database:', err.message);
     }
 };
 
