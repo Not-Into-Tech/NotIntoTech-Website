@@ -64,8 +64,8 @@
                                     class="mb-12 bg-[#010C13] bg-opacity-5 backdrop-blur-sm rounded-lg p-8 border border-white border-opacity-10">
                                     <!-- Tableau Embed -->
                                     <div class="bg-black bg-opacity-30 rounded-lg overflow-hidden min-h-[600px]">
-                                        <tableau-viz id="tableau-dashboard" src="<%= article.tableauUrl %>" width="100%"
-                                            height="600" style="display: block;">
+                                        <tableau-viz id="tableau-dashboard" data-src="<%= article.tableauUrl %>"
+                                            width="100%" height="600" style="display: block;">
                                         </tableau-viz>
                                     </div>
                                 </div>
@@ -98,41 +98,7 @@
 
         </div>
 
-        <!-- Tableau Web Component API -->
-        <script type="module"
-            src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
-
         <script src="/script.js"></script>
-
-        <!-- Tableau Lazy Loading & Rendering -->
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                if ('IntersectionObserver' in window) {
-                    const tableauVizs = document.querySelectorAll('tableau-viz');
-
-                    if (tableauVizs.length) {
-                        const observer = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    // Add class to trigger CSS animations if any
-                                    entry.target.classList.add('visible-for-tableau');
-                                    observer.unobserve(entry.target);
-                                }
-                            });
-                        }, { rootMargin: '200px' });
-
-                        tableauVizs.forEach(viz => {
-                            observer.observe(viz);
-                        });
-                    }
-                } else {
-                    // Fallback for older browsers
-                    document.querySelectorAll('tableau-viz').forEach(v => {
-                        v.classList.add('visible-for-tableau');
-                    });
-                }
-            });
-        </script>
 
     </body>
 

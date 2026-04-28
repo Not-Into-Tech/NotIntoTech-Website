@@ -10,4 +10,11 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
+if (supabase) {
+  console.log('Database is connected to: supa NotIntoTech');
+}
+else {
+  console.log('Warning:Supabase client not initialized.');
+}
+
 module.exports = supabase;
