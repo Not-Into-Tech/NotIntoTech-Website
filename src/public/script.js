@@ -1,33 +1,3 @@
-// Navbar Mobile Responsive (DOM Manipulation)
-const navbar = document.getElementById("navbar");
-const mobileMenu = document.getElementById("mobile-menu");
-const menuBtn = document.getElementById("menu-btn");
-const closeBtn = document.getElementById("close-btn");
-document.addEventListener("DOMContentLoaded", () => {
-    const navbar = document.getElementById("navbar");
-
-    function handleScroll() {
-        if (window.scrollY > 50) {
-            navbar.classList.add("bg-white/15", "backdrop-blur-lg");
-        } else {
-            navbar.classList.remove("bg-white/15", "backdrop-blur-lg");
-        }
-    }
-
-    window.addEventListener("scroll", handleScroll);
-});
-
-menuBtn.addEventListener("click", () => {
-    mobileMenu.classList.remove("-translate-x-full");
-    mobileMenu.classList.add("translate-x-0");
-});
-
-closeBtn.addEventListener("click", () => {
-    mobileMenu.classList.remove("translate-x-0");
-    mobileMenu.classList.add("-translate-x-full");
-});
-
-
 // Chatbot Section
 const PROXY_ENDPOINT = '/api/chat';
 
@@ -82,15 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
-
-// Navbar scroll effect
-window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    if (window.scrollY > 50) nav.classList.add('bg-[#010C13]');
-    else nav.classList.remove('bg-[#010C13]');
-});
-
 
 // Articles Tableau Lazy Loading & Dynamic Embedding
 (function () {
