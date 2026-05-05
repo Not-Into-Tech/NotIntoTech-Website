@@ -4,19 +4,18 @@
   "description": "This is repository for IdeaBox website as digital platform. The website will be utilized for organization branding and releasing insightfull articles.",
   "main": "server-local.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx @tailwindcss/cli -i ./src/public/main.css -o ./src/public/output.css",
     "dev:css": "npx @tailwindcss/cli -i ./src/public/main.css -o ./src/public/output.css --watch",
     "dev:server": "nodemon server-local.js",
-    "start": "node server-local.js",
     "dev": "concurrently \"npm run dev:css\" \"npm run dev:server\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.101.1",
     "@tailwindcss/cli": "^4.1.11",
-    "dotenv": "^17.2.3",
     "dompurify": "^3.0.6",
+    "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-validator": "^7.3.1",

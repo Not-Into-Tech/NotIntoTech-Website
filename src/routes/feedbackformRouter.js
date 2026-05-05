@@ -12,19 +12,19 @@ router.post('/feedback-form', async (req, res) => {
             feedback_text: req.body['feedback-text'],
         });
         await newUser.save();
-        console.log('Feedback saved successfully');
+        console.log('Feedback sent successfully');
 
-        res.render('index', { 
-            message: 'Feedback submitted successfully!', 
-            error: null 
+        res.render('index', {
+            message: 'Feedback sent!',
+            error: null
         });
     } catch (err) {
-        console.error('Error saving user data:', err);
+        console.error('Error sending feedback:', err);
         res.status(500).render(
             'index',
             {
                 message: null,
-                error: 'Error saving user data' 
+                error: 'Error sending feedback'
             }
         );
     }

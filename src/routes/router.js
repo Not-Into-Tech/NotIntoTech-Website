@@ -6,22 +6,22 @@ const feedbackformRoutes = require('./feedbackformRouter');
 const requestRoutes = require('./requestRouter');
 const requestformRoutes = require('./requestformRouter');
 const comingsoonRoutes = require('./comingsoonRouter');
-const datasetRoutes = require('./dataRouter');
+const datasetRoutes = require('./datasetRouter');
 const errorRoutes = require('./errorRouter');
 const aiRoutes = require('./aiRouter');
 const profileRoutes = require('./profileRouter');
 const insightsApiRoutes = require('./insightsApiRouter');
 
 router.use('/', homeRoutes);
+router.use('/', profileRoutes);
 router.use('/', insightsRoutes);
-router.use('/', feedbackformRoutes);
+router.use('/', insightsApiRoutes);
+router.use('/', datasetRoutes);
 router.use('/', requestRoutes);
+router.use('/', aiRoutes);
+router.use('/', feedbackformRoutes);
 router.use('/', requestformRoutes);
 router.use('/', comingsoonRoutes);
-router.use('/', datasetRoutes);
 router.use('/', errorRoutes);
-router.use('/', aiRoutes);
-router.use('/', profileRoutes);
-router.use('/', insightsApiRoutes);
 
 module.exports = router;

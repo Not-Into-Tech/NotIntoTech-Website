@@ -2,7 +2,7 @@ NITE Website Font Size Rules
 H1	: 3em
 H2	: 2em
 H3	: 1em
-P	: 0.9em
+P	: 0.9em - 0.8em
 Button	: 0.8em
 
 Color Palette

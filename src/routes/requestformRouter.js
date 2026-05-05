@@ -12,19 +12,19 @@ router.post('/request-form', async (req, res) => {
             request_text: req.body['request-text'],
         });
         await newUser.save();
-        console.log('Request saved successfully');
+        console.log('Request sent successfully');
 
-        res.render('request-data', { 
-            message: 'Request submitted successfully!', 
-            error: null 
+        res.render('request-data', {
+            message: 'Request sent!',
+            error: null
         });
     } catch (err) {
-        console.error('Error saving request data:', err);
+        console.error('Error sending request:', err);
         res.status(500).render(
             'request-data',
             {
                 message: null,
-                error: 'Error saving request data' 
+                error: 'Error sending request'
             }
         );
     }

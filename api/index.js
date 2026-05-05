@@ -3,7 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const connectDB = require('../src/database/db');
+const connectDB = require('../src/database/mongodbClient');
 const router = require('../src/routes/router');
 
 const app = express();
@@ -66,7 +66,7 @@ app.post('/api/chat', async (req, res) => {
 app.use('/', router);
 
 app.use((req, res) => {
-    res.status(404).json({ error: 'Route not found' });
+    res.status(404).redirect('/error');
 });
 
 module.exports = app;

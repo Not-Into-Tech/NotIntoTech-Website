@@ -3,7 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const connectDB = require('./src/database/db');
+const connectDB = require('./src/database/mongodbClient');
 const router = require('./src/routes/router');
 
 const app = express();
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'src/public')));
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'src/views'));
+app.set('views');
 
 // Proxy Route for Chatbot
 app.post('/api/chat', async (req, res) => {
@@ -64,6 +64,10 @@ app.post('/api/chat', async (req, res) => {
 });
 
 app.use('/', router);
+
+app.use((req, res) => {
+    res.status(404).redirect('/error');
+});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
